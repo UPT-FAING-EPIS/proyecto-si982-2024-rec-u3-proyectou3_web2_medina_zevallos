@@ -42,7 +42,7 @@ jobs:
 
     # Paso 5: Subir resultados de las pruebas (opcional)
     - name: Upload Test Results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: test-results
         path: test_results.trx
