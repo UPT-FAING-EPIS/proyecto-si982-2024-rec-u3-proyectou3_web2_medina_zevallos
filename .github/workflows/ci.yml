@@ -23,21 +23,30 @@ jobs:
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0'  
+          dotnet-version: '6.0'  # O la versión adecuada según tu proyecto
 
-      # Paso 3: Restaurar paquetes NuGet
+      # Paso 3: Limpiar la caché de NuGet para evitar conflictos
+      - name: Clean NuGet Cache
+        run: dotnet nuget locals all --clear
+
+      # Paso 4: Restaurar paquetes NuGet
       - name: Restore NuGet packages
-        run: dotnet restore Sistema/SistemaEventos/SistemaEventos.sln
+        run: dotnet restore Sistema/SistemaEventos/SistemaEventos.sln --no-cache  # Usamos --no-cache para forzar la restauración
 
-      # Paso 4: Construir el proyecto
+      # Paso 5: Instalar el paquete faltante de Microsoft.CodeDom.Providers.DotNetCompilerPlatform si es necesario
+      - name: Install Microsoft.CodeDom.Providers.DotNetCompilerPlatform
+        run: |
+          dotnet add Sistema/SistemaEventos/SistemaEventos.csproj package Microsoft.CodeDom.Providers.DotNetCompilerPlatform --version 2.0.1
+
+      # Paso 6: Construir el proyecto
       - name: Build project
         run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=Sistema/SistemaEventos/bin/Release/publish
 
-      # Paso 5: Opcional: Ejecutar pruebas unitarias
+      # Paso 7: Ejecutar pruebas unitarias (opcional)
       - name: Run Tests
         run: dotnet test Sistema/SistemaEventos/SistemaEventos.sln --configuration Release
 
-      # Paso 6: Publicar los artefactos (si es necesario)
+      # Paso 8: Publicar los artefactos (si es necesario)
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
