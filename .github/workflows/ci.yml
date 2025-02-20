@@ -3,49 +3,29 @@ name: Ejecutar Pruebas Unitarias
 on:
   push:
     branches:
-      - main  # Solo ejecuta en la rama principal
+      - main
   pull_request:
     branches:
-      - main  # También en pull requests hacia la rama principal
+      - main
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest  # Utilizamos un runner de Ubuntu para ejecutar el pipeline
+    runs-on: ubuntu-latest
 
     steps:
-      # Paso 1: Checkout del código
-      - name: Checkout del código fuente
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Obtiene todo el historial de commits, no solo el más reciente
+    - name: Checkout del código
+      uses: actions/checkout@v3
 
-      # Paso 2: Configurar el SDK de .NET
-      - name: Configurar .NET SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '9.0.101'  # Especificamos la versión del SDK de .NET a utilizar
+    - name: Configurar .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.101'
 
-      # Paso 3: Restaurar dependencias de NuGet
-      - name: Restaurar dependencias de NuGet
-        run: |
-          echo "Restaurando dependencias..."
-          dotnet restore ./ProyectoCFTests/  # Restauramos las dependencias necesarias para el proyecto de pruebas
+    - name: Restaurar dependencias
+      run: dotnet restore ./ProyectoCFTests/
 
-      # Paso 4: Construir el proyecto de pruebas
-      - name: Construir el proyecto de pruebas
-        run: |
-          echo "Construyendo el proyecto..."
-          dotnet build ./ProyectoCFTests/ --configuration Release --no-restore  # Compilamos el proyecto en modo Release, sin restaurar dependencias nuevamente
+    - name: Construir el proyecto
+      run: dotnet build ./ProyectoCFTests/ --configuration Release --no-restore
 
-      # Paso 5: Ejecutar pruebas unitarias
-      - name: Ejecutar pruebas unitarias
-        run: |
-          echo "Ejecutando pruebas unitarias..."
-          dotnet test ./ProyectoCFTests/ --configuration Release --no-build --verbosity normal  # Ejecutamos las pruebas en modo Release, sin reconstruir el proyecto
-
-      # Paso 6: Publicar el reporte de las pruebas (opcional)
-      - name: Publicar resultados de pruebas
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: ./ProyectoCFTests/TestResults/*.xml  # Subimos los resultados de las pruebas (si se generan archivos de reporte)
+    - name: Ejecutar pruebas unitarias
+      run: dotnet test ./ProyectoCFTests/ --configuration Release --no-build --verbosity normal
