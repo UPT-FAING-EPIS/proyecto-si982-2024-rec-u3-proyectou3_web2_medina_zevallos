@@ -24,21 +24,23 @@ jobs:
         with:
           dotnet-version: '7.x'  # Ajusta según la versión que estés utilizando
 
-      # Paso 3: Restaurar los paquetes NuGet (asegurándote de que apunte a la solución correcta)
+      # Paso 3: Restaurar los paquetes NuGet
       - name: Restore NuGet packages
         run: dotnet restore Sistema/SistemaEventos/SistemaEventos.sln
 
-      # Paso 4: Configuración de SonarCloud
+      # Paso 4: Configuración de SonarCloud usando la variable de entorno
       - name: Set up SonarCloud
         uses: SonarSource/sonarcloud-github-action@v1
         with:
-          sonarcloud-token: ${{ secrets.SONAR_TOKEN }}
+          entryPoint: sonar-scanner
+          args: |
+            -Dsonar.organization=justinzp
+            -Dsonar.projectKey=JustinZP_proyecto-si982-2024-rec-u3-proyectou3_web2_medina_zevallos
+            -Dsonar.sources=.
+            -Dsonar.host.url=https://sonarcloud.io
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Establecer el token como variable de entorno
 
       # Paso 5: Ejecutar el análisis de SonarCloud
       - name: Run SonarCloud scanner
-        run: |
-          sonar-scanner \
-            -Dsonar.organization=justinzp \
-            -Dsonar.projectKey=JustinZP_proyecto-si982-2024-rec-u3-proyectou3_web2_medina_zevallos \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=https://sonarcloud.io
+        run: sonar-scanner
