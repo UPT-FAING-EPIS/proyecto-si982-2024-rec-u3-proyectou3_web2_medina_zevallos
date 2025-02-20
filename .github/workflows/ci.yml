@@ -22,10 +22,10 @@ jobs:
         dotnet-version: '9.0.101'
 
     - name: Restaurar dependencias
-      run: dotnet restore ./ProyectoFTests/ProyectoFTests.csproj
+      run: dotnet restore ./ProyectoTests/ProyectoTests.csproj
 
     - name: Construir el proyecto
-      run: dotnet build ./ProyectoFTests/ --configuration Release --no-restore
+      run: dotnet build ./ProyectoTests/ --configuration Release --no-restore
 
     - name: Ejecutar pruebas unitarias
-      run: dotnet test ./ProyectoFTests/ --configuration Release --no-build --verbosity normal
+      run: dotnet test ./ProyectoTests/ --configuration Release --no-build --verbosity normal
