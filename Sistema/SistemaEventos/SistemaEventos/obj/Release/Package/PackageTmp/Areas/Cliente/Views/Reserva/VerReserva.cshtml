@@ -1,0 +1,165 @@
+﻿@model SistemaEventos.Models.Reserva
+@{
+    ViewBag.Title = "VerReserva";
+    var fechaActual = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"); // Formato para datetime-local
+}
+<section class="relative pb-12 pt-20" id="home">
+    <div class="container 2xl:max-w-[87.5rem] px-4 mx-auto">
+        @foreach (var item in ViewBag.DetalleEvent)
+        {
+            <div class="mt-1 -ml-3 -mr-3 rounded-none card">
+                <div class="card-body !px-2.5">
+                    <div class="grid grid-cols-1 gap-5 lg:grid-cols-12 2xl:grid-cols-12">
+                        <div class="lg:col-span-10 2xl:col-span-6">
+                            <h5 class="mb-1">@Model.Evento.Titulo <i data-lucide="badge-check" class="inline-block size-4 text-sky-500 fill-sky-100 dark:fill-custom-500/20"></i></h5>
+                            <div class="flex gap-3 mb-4">
+                                <p class="text-slate-500 dark:text-zink-200">
+                                    <i data-lucide="map-pin" class="inline-block size-4 ltr:mr-1 rtl:ml-1 text-slate-500 dark:text-zink-200 fill-slate-100 dark:fill-zink-500"></i>
+                                    @item.Ubicacion
+                                </p>
+                            </div>
+                            <p class="mt-4 text-slate-500 dark:text-zink-200">
+                                <b>Descripcion:</b> @Model.Evento.Descripcion
+                            </p>
+                            <div class="mt-4">
+                                <p class="text-slate-500 dark:text-zink-200">
+                                    <b>Servicios:</b>
+                                </p>
+                                @foreach (var se in ViewBag.Servicios)
+                                {
+                                    foreach (var s in ViewBag.Servicios2)
+                                    {
+                                        if (se.IdServicio == s.Id)
+                                        {
+                                            <p>📌 @s.Nombre</p>
+                                        }
+                                    }
+                                }
+                            </div>
+                            <div class="mt-4">
+                                <p class="text-slate-500 dark:text-zink-200">
+                                    <b>Subir Archivo de Invitados:</b><br />
+                                    Ingrese un  archivo CSV
+                                </p>
+
+                                <br />
+                                @using (Html.BeginForm("VerReserva", "Reserva", FormMethod.Post, new { enctype = "multipart/form-data", area = "Cliente" }))
+                                {
+                                    <input type="hidden" name="IdReserva" value="@Model.Id" />
+                                    <input type="hidden" name="FechaCreacion" value="@fechaActual" />
+                                    <div class="form-group">
+                                        <input type="file" name="archivoInvitados" id="archivoInvitados" class="cursor-pointer form-file form-file-sm border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500" accept=".csv" required />
+                                    </div>
+                                    <br />
+                                    <button id="sa-basic" type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600">
+                                        Agregar Invitados
+                                    </button>
+                                }
+                                <br />
+                                <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">
+                                Archivo CSV Ejemplo</span>
+                                <br />
+                                <br />
+                                <a href="~/assets/invitados.csv" class="px-2.5 py-2 ltr:pl-[calc(theme('spacing.2')_*_5.5)] rtl:pr-[calc(theme('spacing.2')_*_5.5)] text-xs relative text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                                    <i class="ri-download-2-line w-[34px] bg-white/10 flex absolute ltr:-left-[1px] rtl:-right-[1px] -bottom-[1px] -top-[1px] items-center justify-center">
+                                    </i> Descargar
+                                </a>
+
+
+                            </div>
+                            <div class="mt-4">
+                                @if (ViewBag.InvitadosCount > 0)
+                                {
+                                    <p class="text-slate-500 dark:text-zink-200">
+                                        <b>Lista de invitados:</b>
+                                    </p>
+                                    <br />
+                                    <button class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600" onclick="location.href='@Url.Action("VerInvitados", "Reserva", new { idReserva = Model.Id })'">
+                                        Ver Invitados
+                                    </button>
+                                }
+                            </div>
+                            @if (TempData["SuccessMessage"] != null)
+                            {
+                                <script type="text/javascript">
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        Swal.fire({
+                                            title: '@TempData["SuccessMessage"]',
+                                            customClass: {
+                                                confirmButton: 'text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600',
+                                            },
+                                            buttonsStyling: false,
+                                            showCloseButton: true
+                                        });
+                                    });
+                                </script>
+                            }
+                        </div>
+                        <div class="lg:col-span-10 2xl:col-span-6">
+                            <img src="@item.ImagenUrl" alt="Event Image" class="w-full h-auto rounded-lg shadow-lg" height="250">
+                        </div>
+                    </div><!--end grid-->
+                </div>
+            </div><!--end card-->
+        }
+
+        <div class="card mt-6">
+            <div class="card-body">
+                <h6 class="mb-3 text-15">Historial</h6>
+                <div class="overflow-x-auto">
+                    <table class="w-full whitespace-nowrap">
+                        <thead class="ltr:text-left rtl:text-right">
+                            <tr>
+                                <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Fecha</th>
+                                <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Monto</th>
+                                <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Estado</th>
+                                <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Invitados</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">@Model.FechaReserva</td>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">@Model.Evento.Costo</td>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 text-green-500">@Model.Estado</td>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">@Model.NumeroInvitados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!--end card-->
+
+        @if (ViewBag.ConfirmarEliminacion == true)
+        {
+            <div class="modal" tabindex="-1" role="dialog" id="confirmModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirmación</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-slate-500 dark:text-zink-200">
+                            <b>¿Está seguro que desea eliminar los invitados anteriores? Esta acción no se puede deshacer.</b>
+                            </p>
+                        </div>
+                        <br />
+                        <div class="modal-footer">
+                            @using (Html.BeginForm("VerReserva", "Reserva", FormMethod.Post, new { enctype = "multipart/form-data", area = "Cliente" }))
+                            {
+                                <input type="hidden" name="IdReserva" value="@ViewBag.IdReserva" />
+                                <input type="hidden" name="confirmarEliminacion" value="true" />
+                                <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                                    Confirmar
+                                </button>
+                            }
+                            <br />
+                            <button type="button" data-dismiss="modal" class="text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-custom-400/20">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

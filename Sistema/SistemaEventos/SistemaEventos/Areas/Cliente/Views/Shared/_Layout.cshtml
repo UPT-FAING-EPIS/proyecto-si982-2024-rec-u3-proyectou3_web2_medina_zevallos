@@ -1,0 +1,294 @@
+﻿@{
+    string controlador = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    SistemaEventos.Models.Usuario usuario = new SistemaEventos.Models.Usuario().
+        Obtener(SistemaEventos.Models.SessionHelper.GetUser());
+
+    //bool isAuthenticated = User.Identity.IsAuthenticated;
+    //if (isAuthenticated)
+    //{
+    //    usuario = new SistemaEventos.Models.Usuario().Obtener(SistemaEventos.Models.SessionHelper.GetUser());
+    //}
+}
+
+<!DOCTYPE html>
+<html lang="en" class="overflow-x-hidden scroll-smooth group" data-mode="light" dir="ltr">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>EventifyMe Eventos!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta content="Pagina principal" name="description">
+    <meta content="Kapta" name="grupo5">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico">
+    <!-- Layout config Js -->
+    <script src="~/assets/js/layout.js"></script>
+    <!-- StarCode CSS -->
+    <link rel="stylesheet" href="~/assets/css/starcode2.css">
+
+    <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
+    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+    <style>
+        df-messenger {
+            z-index: 999;
+            position: fixed;
+            --df-messenger-font-color: #000;
+            --df-messenger-font-family: Google Sans;
+            --df-messenger-chat-background: #f3f6fc;
+            --df-messenger-message-user-background: #d3e3fd;
+            --df-messenger-message-bot-background: #fff;
+            bottom: 0;
+            right: 0;
+            /*top: 0;*/
+            width: 350px;
+            height: 400px;
+        }
+    </style>
+
+</head>
+
+<body class="text-base bg-white text-body font-public dark:text-zink-50 dark:bg-zink-800">
+
+    <nav class="group-data-[skin=bordered]:shadow-sm group-data-[skin=bordered]:border group-data-[skin=bordered]:border-slate-200 group-data-[skin=bordered]:dark:border-zink-500 relative flex items-center h-16 px-4 py-2 bg-white rounded-md shadow-md  navbar dark:bg-zink-700">
+            <div class="shrink-0">
+                <a href="@Url.Action("Index", "Home", new { area = "Cliente" })">
+                    <h4 style="color:dodgerblue"> EventifyMe </h4>
+                </a>
+
+            </div>
+            <ul id="navbar7" class="absolute inset-x-0 z-20 items-center hidden py-3 bg-white shadow-lg dark:bg-zink-600 dark:md:bg-transparent md:z-0 navbar-menu rounded-b-md md:shadow-none md:flex top-full ltr:ml-auto rtl:mr-auto md:relative md:bg-transparent md:rounded-none md:top-auto md:py-0">
+                <li>
+                    <a href="@Url.Action("Index", "Home", new { area = "Cliente" })" class="block md:inline-block px-4 md:px-3 py-2.5 md:py-0.5 text-15 font-medium text-slate-800 transition-all duration-300 ease-linear hover:text-custom-500 [&.active]:text-custom-500 dark:text-zink-100 dark:hover:text-custom-500 dark:[&.active]:text-custom-500 active">Home</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Evento", new { area = "Cliente" })" class="block md:inline-block px-4 md:px-3 py-2.5 md:py-0.5 text-15 font-medium text-slate-800 transition-all duration-300 ease-linear hover:text-custom-500 [&.active]:text-custom-500 dark:text-zink-100 dark:hover:text-custom-500 dark:[&.active]:text-custom-500">
+                        Eventos
+                    </a>
+                </li>
+                @if (usuario != null)
+                {
+                <li>
+                    <a href="@Url.Action("MisReservas", "Reserva", new { area = "Cliente" })" class="block md:inline-block px-4 md:px-3 py-2.5 md:py-0.5 text-15 font-medium text-slate-800 transition-all duration-300 ease-linear hover:text-custom-500 [&.active]:text-custom-500 dark:text-zink-100 dark:hover:text-custom-500 dark:[&.active]:text-custom-500">
+                        Mis Reservas
+                    </a>
+                </li>
+                }
+
+
+            </ul>
+            <div class="ltr:ml-auto rtl:mr-auto md:hidden navbar-toggale-button">
+                <button type="button" class="flex items-center  justify-center size-[37.5px] p-0 text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20"><i data-lucide="menu"></i></button>
+            </div>
+
+            <div class="flex gap-2">
+                @if (usuario != null)
+                {
+                    <a href="@Url.Action("Logout", "Login", new { area = "Cliente" })"
+                       type="button"
+                       class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                        <span class="align-middle">Cerrar Sesion</span> <i data-lucide="log-in" class="inline-block size-4 ltr:ml-1 rtl:mr-1"></i>
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "Login", new { area = "Cliente" })"
+                       type="button"
+                       class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                        <span class="align-middle">Iniciar Sesion</span> <i data-lucide="log-in" class="inline-block size-4 ltr:ml-1 rtl:mr-1"></i>
+                    </a>
+                }
+            </div>
+        </nav>
+
+    @RenderBody()
+
+    <footer class="relative pt-20 pb-12 bg-slate-800 dark:bg-zink-700">
+        <div class="container 2xl:max-w-[87.5rem] px-4 mx-auto">
+            <div class="relative z-10 grid grid-cols-12 gap-5 xl:grid-cols-12">
+                <div class="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
+                    <h5 class="mb-4 font-medium tracking-wider text-slate-50 dark:text-zink-50">Dashboards</h5>
+                    <ul class="flex flex-col gap-3 text-15">
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Analytics</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">CRM</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Ecommerce</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Email</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">HR</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Social Media</a>
+                        </li>
+                    </ul>
+                </div><!--end col-->
+                <div class="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
+                    <h5 class="mb-4 font-medium tracking-wider text-slate-50 dark:text-zink-50">Apps Pages</h5>
+                    <ul class="flex flex-col gap-3 text-15">
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Ecommerce Apps</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Invoices</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Email App</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Chat App</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Users Apps</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">HR Management</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Social Media</a>
+                        </li>
+                    </ul>
+                </div><!--end col-->
+                <div class="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-2">
+                    <h5 class="mb-4 font-medium tracking-wider text-slate-50 dark:text-zink-50">Resources</h5>
+                    <ul class="flex flex-col gap-3 text-15">
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">All Resources</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Blog</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">FAQ's</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="relative inline-block transition-all duration-200 ease-linear text-slate-400 dark:text-zink-200 hover:text-slate-300 dark:hover:text-zink-50 before:absolute before:border-b before:border-slate-500 dark:before:border-zink-500 before:inset-x-0 before:bottom-0 before:w-0 hover:before:w-full before:transition-all before:duration-300 before:ease-linear">Help Center</a>
+                        </li>
+                    </ul>
+                </div><!--end col-->
+                <div class="col-span-12 md:col-span-6 lg:col-span-12 xl:col-span-4">
+                    <form action="#!" class="relative mb-6">
+                        <input type="email" id="subscribeInput" class="py-3 ltr:pr-40 rtl:pl-40 bg-slate-700/60 dark:bg-zink-600/40 form-input text-slate-200 border-slate-700 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:focus:border-custom-500 placeholder:text-slate-500 dark:placeholder:text-zink-200 backdrop-blur-md" autocomplete="off" placeholder="StarCode@starcodekh.com" required="">
+                        <button type="submit" class="absolute px-6 py-2 text-base transition-all duration-200 ease-linear border-custom-500 bg-custom-500 ltr:right-1 rtl:left-1 text-custom-50 btn hover:text-custom-50 hover:bg-custom-600 hover:border-custom-600 top-1 bottom-1">Subscribe Now</button>
+                    </form>
+
+                    <p class="mb-1 text-slate-500 dark:text-zink-200 text-15">Support Email</p>
+                    <h5 class="text-lg !font-normal text-slate-200 dark:text-zink-50">support@starcodekh.com</h5>
+
+                    <p class="mt-6 mb-1 text-slate-500 dark:text-zink-200 text-15">Contact Us</p>
+                    <h5 class="text-lg !font-normal text-slate-200 dark:text-zink-50">+(855) 1202 012 5555</h5>
+                </div>
+            </div><!--end grid-->
+
+            <div class="py-5 mt-20 border-y border-slate-700">
+                <div class="relative z-10 grid grid-cols-1 gap-5 md:grid-cols-12">
+                    <div class="md:col-span-2">
+                        <div class="relative dropdown">
+                            <button type="button" class="inline-flex items-center gap-3 transition-all duration-200 ease-linear dropdown-toggle btn border-slate-700 group/items focus:border-custom-500" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                                <img src="assets/images/us2.svg" alt="" class="object-cover h-5 rounded-full">
+                                <h6 class="text-base font-medium transition-all duration-200 ease-linear text-slate-300 group-hover/items:text-custom-500">English</h6>
+                            </button>
+
+                            <div class="absolute z-50 hidden p-3 mt-1 text-left list-none bg-white rounded-md shadow-md dropdown-menu min-w-[9rem] flex flex-col gap-3 dark:bg-zink-600" aria-labelledby="dropdownMenuButton">
+                                <a href="#!" class="flex items-center gap-3 group/items">
+                                    <img src="~/assets/images/us2.svg" alt="" class="object-cover h-4 rounded-full">
+                                    <h6 class="text-sm font-medium transition-all duration-200 ease-linear text-slate-600 dark:text-zink-100 group-hover/items:text-custom-500 dark:group-hover/items:text-custom-500">English</h6>
+                                </a>
+                                <a href="#!" class="flex items-center gap-3 group/items">
+                                    <img src="~/assets/images/es2.svg" alt="" class="object-cover h-4 rounded-full">
+                                    <h6 class="text-sm font-medium transition-all duration-200 ease-linear text-slate-600 dark:text-zink-100 group-hover/items:text-custom-500 dark:group-hover/items:text-custom-500">Spanish</h6>
+                                </a>
+                                <a href="#!" class="flex items-center gap-3 group/items">
+                                    <img src="~/assets/images/de2.svg" alt="" class="object-cover h-4 rounded-full">
+                                    <h6 class="text-sm font-medium transition-all duration-200 ease-linear text-slate-600 dark:text-zink-100 group-hover/items:text-custom-500 dark:group-hover/items:text-custom-500">German</h6>
+                                </a>
+                                <a href="#!" class="flex items-center gap-3 group/items">
+                                    <img src="~/assets/images/fr2.svg" alt="" class="object-cover h-4 rounded-full">
+                                    <h6 class="text-sm font-medium transition-all duration-200 ease-linear text-slate-600 dark:text-zink-100 group-hover/items:text-custom-500 dark:group-hover/items:text-custom-500">French</h6>
+                                </a>
+                                <a href="#!" class="flex items-center gap-3 group/items">
+                                    <img src="~/assets/images/jp2.svg" alt="" class="object-cover h-4 rounded-full">
+                                    <h6 class="text-sm font-medium transition-all duration-200 ease-linear text-slate-600 dark:text-zink-100 group-hover/items:text-custom-500 dark:group-hover/items:text-custom-500">Japanese</h6>
+                                </a>
+                                <a href="#!" class="flex items-center gap-3 group/items">
+                                    <img src="~/assets/images/it.svg" alt="" class="object-cover h-4 rounded-full">
+                                    <h6 class="text-sm font-medium transition-all duration-200 ease-linear text-slate-600 dark:text-zink-100 group-hover/items:text-custom-500 dark:group-hover/items:text-custom-500">Italian</h6>
+                                </a>
+                                <a href="#!" class="flex items-center gap-3 group/items">
+                                    <img src="~/assets/images/ru.svg" alt="" class="object-cover h-4 rounded-full">
+                                    <h6 class="text-sm font-medium transition-all duration-200 ease-linear text-slate-600 dark:text-zink-100 group-hover/items:text-custom-500 dark:group-hover/items:text-custom-500">Russian</h6>
+                                </a>
+                                <a href="#!" class="flex items-center gap-3 group/items">
+                                    <img src="~/assets/images/ae.svg" alt="" class="object-cover h-4 rounded-full">
+                                    <h6 class="text-sm font-medium transition-all duration-200 ease-linear text-slate-600 dark:text-zink-100 group-hover/items:text-custom-500 dark:group-hover/items:text-custom-500">Arabic</h6>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-3 md:col-start-10">
+                        <ul class="flex items-center gap-3 md:justify-end">
+                            <li>
+                                <a href="#!" class="flex items-center justify-center w-10 h-10 transition-all duration-200 ease-linear border rounded-full text-slate-400 border-slate-700 hover:text-custom-500"><i data-lucide="facebook" class="size-4"></i></a>
+                            </li>
+                            <li>
+                                <a href="#!" class="flex items-center justify-center w-10 h-10 transition-all duration-200 ease-linear border rounded-full text-slate-400 border-slate-700 hover:text-custom-500"><i data-lucide="linkedin" class="size-4"></i></a>
+                            </li>
+                            <li>
+                                <a href="#!" class="flex items-center justify-center w-10 h-10 transition-all duration-200 ease-linear border rounded-full text-slate-400 border-slate-700 hover:text-custom-500"><i data-lucide="instagram" class="size-4"></i></a>
+                            </li>
+                            <li>
+                                <a href="#!" class="flex items-center justify-center w-10 h-10 transition-all duration-200 ease-linear border rounded-full text-slate-400 border-slate-700 hover:text-custom-500"><i data-lucide="twitter" class="size-4"></i></a>
+                            </li>
+                            <li>
+                                <a href="#!" class="flex items-center justify-center w-10 h-10 transition-all duration-200 ease-linear border rounded-full text-slate-400 border-slate-700 hover:text-custom-500"><i data-lucide="youtube" class="size-4"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center text-slate-400 dark:text-zink-200 text-16">
+                <p>
+                    <script>document.write(new Date().getFullYear())</script> Eventos por <a href="#!" class="underline text-slate-300 dark:text-zink-100">EventifyMe</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" class="fixed flex items-center justify-center w-10 h-10 text-white bg-purple-500 rounded-md bottom-10 right-10">
+        <i data-lucide="chevron-up" class="animate animate-icons"></i>
+    </button>
+
+    @RenderSection("Scripts", required: false)
+
+
+    <script src='~/assets/libs/choices.js/public/assets/scripts/choices.min.js'></script>
+    <script src="~/assets/libs/%40popperjs/core/umd/popper.min.js"></script>
+    <script src="~/assets/libs/tippy.js/tippy-bundle.umd.min.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/libs/prismjs/prism.js"></script>
+    <script src="~/assets/libs/lucide/umd/lucide.js"></script>
+    <script src="~/assets/js/StarCode.bundle.js"></script>
+    <!-- Sweet Alerts js -->
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <!--sweet alert init js-->
+    @*<script src="~/assets/js/pages/sweetalert.init.js"></script>*@
+
+    <script src="~/assets/libs/swiper/swiper-bundle.min.js"></script>
+    <script src="~/assets/libs/aos/aos.js"></script>
+
+    <script src="~/assets/js/pages/landing-onepage.init.js"></script>
+    <script src="~/assets/js/pages/landing-product.init.js"></script>
+
+    <!-- App js -->
+    <script src="~/assets/js/app.js"></script>
+</body>
+
+</html>

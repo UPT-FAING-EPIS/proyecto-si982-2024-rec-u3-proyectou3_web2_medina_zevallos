@@ -1,0 +1,73 @@
+﻿@model IEnumerable<SistemaEventos.Models.Evento>
+@{
+
+    var evento = ViewBag.DetalleEvento;
+    var data = 0;
+    var img = "";
+
+}
+
+<section class="relative py-24 xl:py-32" id="product">
+    <div class="container 2xl:max-w-[87.5rem] px-4 mx-auto">
+        <div class="mx-auto text-center xl:max-w-3xl">
+            <h1 class="mb-0 leading-normal capitalize">Catalogo de Eventos</h1>
+        </div>
+        <div class="grid grid-cols-1 gap-5 mt-12 md:grid-cols-2 xl:grid-cols-4">
+            @foreach (var m in Model)
+            {
+                foreach (var d in ViewBag.DetalleEvento)
+                {
+                    if (d.IdEvento == m.Id)
+                    {
+                        data = d.Id;
+                        img = d.ImagenUrl;
+                    }
+                }
+                <div class="p-5 rounded-md bg-gradient-to-b from-slate-100 to-white dark:from-zinc-800 dark:to-zinc-900" data-aos="fade-up" data-aos-easing="linear">
+                    <img src="@img" alt="" class="mx-auto h-52">
+                    <div class="mt-3">
+                        <p class="mb-3"><i data-lucide="star" class="inline-block text-yellow-500 align-middle size-4 ltr:mr-1 rtl:ml-1"></i> (4.8)</p>
+                        <h5><a href="#!">@m.Titulo</a></h5>
+
+                        <div class="flex items-center gap-3 mt-3">
+                            <h6 class="text-16 grow">@m.Costo</h6>
+                            <div class="shrink-0">
+                                <a href="@Url.Action("DetalleEvento", "Evento", new { area = "Cliente", id = data })">
+                                    Ver Mas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--end-->
+
+            }
+        </div><!--end grid-->
+    </div><!--end container-->
+</section><!--end -->
+
+
+@*
+    @foreach (var m in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                @foreach (var d in ViewBag.DetalleEvento)
+                {
+                    if (d.IdEvento == m.Id)
+                    {
+                        data = d.Id;
+                        img = d.ImagenUrl;
+                    }
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@m.Titulo</h5>
+                    <img src="@img" alt="imagen" width="250px" />
+                </div>
+                <div class="card-footer">
+                    <a href="@Url.Action("DetalleEvento", "Evento", new { area = "Cliente", id = data })" class="btn btn-warning w-100">Ver más</a>
+                </div>
+
+            </div>
+        </div>
+    }
+*@

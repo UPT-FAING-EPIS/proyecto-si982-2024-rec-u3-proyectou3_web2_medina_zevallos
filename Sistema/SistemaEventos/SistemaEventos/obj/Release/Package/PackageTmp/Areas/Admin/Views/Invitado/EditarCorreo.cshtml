@@ -1,0 +1,118 @@
+﻿@model SistemaEventos.Models.CorreoViewModel
+@{
+    ViewBag.Title = "Editar Correo";
+}
+
+
+@*@using (Html.BeginForm("EnviarInvitaciones", "Invitado", FormMethod.Post, new { area = "Admin" }))
+{
+    @Html.HiddenFor(model => model.IdReserva)
+
+    <div>
+        <label for="Asunto">Asunto:</label>
+        @Html.TextBoxFor(model => model.Asunto, new { @id = "Asunto" })
+    </div>
+    <div>
+        <label for="Cuerpo">Cuerpo del correo:</label>
+        @Html.TextAreaFor(model => model.Cuerpo, new { @id = "Cuerpo" })
+    </div>
+    <div>
+        <input type="submit" value="Enviar" />
+    </div>
+}*@
+
+
+
+    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+        <div class="grow">
+            <h5 class="text-16">Editar correo</h5>
+        </div>
+        <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+            <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+                <a href="#!" class="text-slate-400 dark:text-zink-200">Forms</a>
+            </li>
+            <li class="text-slate-700 dark:text-zink-100">
+                Editar correo
+            </li>
+        </ul>
+    </div>
+
+    <div class="grid grid-cols-12 xl:flex-row gap-x-5">
+
+        <div class="col-span-12 lg:col-span-9 2xl:col-span-10 grow card">
+            <div class="relative flex flex-col h-full">
+                <div class="card">
+                    @using (Html.BeginForm("EnviarInvitaciones", "Invitado", FormMethod.Post, new { area = "Admin" }))
+                    {
+                        @Html.HiddenFor(model => model.IdReserva)
+                        <div class="card-body">
+
+                            <h6 class="mb-4 text-15">Asunto</h6>
+                            @Html.TextBoxFor(model => model.Asunto, new { @id = "Asunto", @class = "form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200\"" })
+                            <br />
+                            <h6 class="mb-4 text-15">Cuerpo del Correo</h6>
+                            @Html.TextAreaFor(model => model.Cuerpo, new { @id = "Cuerpo", @class = "ckeditor-classic text-slate-800", @rows = "20", @cols = "80" })
+                            <br /><br />
+                            <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="send" class="lucide lucide-send inline-block mr-1 align-middle size-4"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg> <span class="align-middle">Send</span></button>
+
+                        </div>
+
+                    }
+                </div><!--end card-->
+            </div>
+        </div><!--end-->
+
+        <div class="col-span-12 lg:col-span-3 2xl:col-span-2 shrink-0 card">
+            <div class="h-[calc(100vh_-_theme('spacing.10')_*_6)] xl:min-h-[calc(100vh_-_theme('height.header')_*_2.4)] card xl:h-[calc(100%_-_theme('spacing.5'))]">
+                <div class="flex flex-col h-full">
+                    <div class="tab-content">
+                        <div class="block tab-pane" id="mainChatList">
+                            <div class="card-body">
+                                <div class="flex items-center gap-3">
+                                    <h6 class="text-15 grow">Invitados</h6>
+                                    </div>
+                                <div class="relative mt-5">
+                                    <input type="text" class="ltr:pl-8 rtl:pr-8 search form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="Search for ..." autocomplete="off">
+                                    <i data-lucide="search" class="inline-block size-4 absolute ltr:left-2.5 rtl:right-2.5 top-2.5 text-slate-500 dark:text-zink-200 fill-slate-100 dark:fill-zink-600"></i>
+                                </div>
+                            </div>
+                            <div data-simplebar="" class="max-h-[calc(100vh_-_380px)] xl:max-h-[calc(100vh_-_300px)]">
+                                <ul class="flex flex-col gap-1" id="chatList">
+                                    <li class="px-5">
+                                        <p class="mb-1 text-slate-500 dark:text-zink-200"> Lista de Invitados</p>
+                                    </li>
+                                    @foreach (var item in ViewBag.Invitado)
+                                    {
+                                        <li>
+                                            <a href="#!" class="flex items-center gap-3 px-5 py-2 [&.active]:bg-slate-50 group/item dark:[&.active]:bg-zink-600 online">
+                                                <div class="relative flex items-center justify-center font-semibold rounded-full text-slate-500 dark:text-zink-200 size-9 bg-slate-100 dark:bg-zink-600">
+                                                    @{
+                                                        var firstLetter = item.Nombre.Substring(0, 1).ToUpper();
+                                                    }
+                                                    @firstLetter
+                                                    <span class="absolute bottom-0 ltr:right-0 rtl:left-0 w-2.5 h-2.5 border-2 border-white dark:border-zink-700 rounded-full group-[.online]/item:bg-green-400 group-[.offline]/item:bg-slate-400 dark:group-[.offline]/item:bg-zink-500 bg-red-500"></span>
+                                                </div>
+                                                <div class="overflow-hidden grow">
+                                                    <h6 class="mb-1">@item.Nombre</h6>
+                                                    <p class="text-xs truncate text-slate-500 dark:text-zink-200"> Invitado </p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end -->
+
+    </div>
+
+        
+
+        
+        
+
+

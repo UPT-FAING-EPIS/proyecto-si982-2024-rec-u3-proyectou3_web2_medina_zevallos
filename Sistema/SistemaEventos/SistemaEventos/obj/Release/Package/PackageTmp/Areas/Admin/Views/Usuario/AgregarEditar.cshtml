@@ -1,0 +1,191 @@
+﻿@model SistemaEventos.Models.Usuario
+@{
+    ViewBag.Title = "AgregarEditar";
+}
+
+
+<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div class="grow">
+        <h5 class="text-16">Nuevo Usuario</h5>
+    </div>
+    <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+        <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+            <a href="@Url.Action("Index", "Usuario", new { area = "Admin"})" class="text-slate-400 dark:text-zink-200">Usuario</a>
+        </li>
+        <li class="text-slate-700 dark:text-zink-100">
+            @(Model.Id > 0 ? Model.Nombre : "Nuevo Usuario")
+        </li>
+    </ul>
+</div>
+@using (Html.BeginForm("Guardar", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data", area = "Admin" }))
+{
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-x-5">
+        <div class="xl:col-span-9">
+            @Html.HiddenFor(x => x.Id)
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="mb-4 text-15">Crear Usuario</h6>
+
+                    <form action="#!">
+                        <div class="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-12">
+
+                            <div class="xl:col-span-12">
+
+                                @Html.Label("Codigo de Usuario:", new
+                           {
+                               @class = "inline-block mb-2 text-base font-medium"
+                           })
+                                @Html.TextBoxFor(x => x.Id, new
+                           {
+                               @type = "text",
+                               @class = "form-input border-slate-200 dark:border-zink-500 focus:outline-none " +
+                                    "focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 " +
+                                    "disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 " +
+                                    "disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 " +
+                                    "placeholder:text-slate-400 dark:placeholder:text-zink-200",
+
+                               @required = "required",
+                               disabled = true
+                           })
+                                <p class="mt-1 text-sm text-slate-400 dark:text-zink-200">Code will be generated automatically</p>
+                            </div>
+                            <!--end col-->
+
+                            <div class="xl:col-span-4">
+
+                                @Html.Label("Nombre:", new
+                                {
+                                    @class = "inline-block mb-2 text-base font-medium"
+                                })
+                                @Html.TextBoxFor(x => x.Nombre, new
+                                {
+                                    @type = "text",
+                                    @class = "form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200",
+                                    @placeholder = "Ingrese su Nombre",
+                                    @required = "required"
+                                })
+
+
+                            </div><!--end col-->
+                            <div class="xl:col-span-4">
+
+                                @Html.Label("Apellido:", new
+                                {
+                                    @class = "inline-block mb-2 text-base font-medium"
+                                })
+                                @Html.TextBoxFor(x => x.Apellido, new
+                                {
+                                    @type = "text",
+                                    @class = "form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200",
+                                    @placeholder = "Ingrese su Apellido",
+                                    @required = "required"
+                                })
+
+                            </div><!--end col-->
+                            <div class="xl:col-span-4">
+                                @Html.Label("Celular:", new
+                                {
+                                    @class = "inline-block mb-2 text-base font-medium"
+                                })
+                                @Html.TextBoxFor(x => x.Celular, new
+                                {
+                                    @type = "text",
+                                    @class = "form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200",
+                                    @placeholder = "(+51) 952-952-952",
+                                    @required = "required"
+                                })
+                            </div><!--end col-->
+                            <div class="xl:col-span-4">
+
+                                @Html.LabelFor(x => x.IdTipoU, "Tipo de Usuario", new
+                           {
+                               @class = "inline-block mb-2 text-base font-medium"
+                           })
+                                @Html.DropDownListFor(x => x.IdTipoU,
+                                                      (IEnumerable<SelectListItem>)ViewBag.Tipo,
+                                                      "Seleccione un tipo de usuario",
+                                                      new
+                                                           {
+                                                               @class = "form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border - custom - 500 disabled:bg - slate - 100 dark:disabled:bg - zink - 600disabled:border - slate - 300 dark:disabled:border - zink - 500 dark:disabled:text - zink - 200disabled:text - slate - 500 dark:text - zink - 100 dark:bg - zink - 700 dark:focus:border - custom - 800placeholder:text - slate - 400 dark:placeholder:text - zink - 200"
+                                                      })
+                                @Html.ValidationMessageFor(x => x.IdTipoU)
+
+                            </div><!--end col-->
+                            <div class="xl:col-span-4">
+                                @Html.Label("Direccion:", new
+                                {
+                                    @class = "inline-block mb-2 text-base font-medium"
+                                })
+                                @Html.TextBoxFor(x => x.Direccion, new
+                                {
+                                    @type = "text",
+                                    @class = "form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200",
+                                    @placeholder = "Av. La Cultura",
+                                    @required = "required"
+                                })
+                            </div><!--end col-->
+                            <div class="xl:col-span-4">
+                                <label for="genderSelect" class="inline-block mb-2 text-base font-medium">Genero</label>
+                                <select class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-choices="" data-choices-search-false="" name="genderSelect" id="genderSelect">
+                                    <option value="">Selecciona Genero</option>
+                                    <option value="Male">Masculino</option>
+                                    <option value="Female">Femenino</option>
+                                </select>
+                            </div><!--end col-->
+                            <!--AGREGANDO IMAGEN-->
+                            
+                            <div class="lg:col-span-2 xl:col-span-12">
+                                <label for="genderSelect" class="inline-block mb-2 text-base font-medium">Imagen de Usuario</label>
+                                <br />
+                                @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <input type="file" name="imagen" id="imagen"
+                                       class="cursor-pointer form-file form-file-sm border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500"
+                                       placeholder="Enter your image">
+                            </div>
+                            </div>
+                            <div class="xl:col-span-4">
+                                @Html.Label("Correo:", new
+                                {
+                                    @class = "inline-block mb-2 text-base font-medium"
+                                })
+                                @Html.TextBoxFor(x => x.Correo, new
+                                {
+                                    @type = "text",
+                                    @class = "form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200",
+                                    @placeholder = "su_correo@gmail.com",
+                                    @required = "required"
+                                })
+                            </div><!--end col-->
+
+                            <div class="xl:col-span-4">
+                                @Html.Label("Contraseña:", new
+                                {
+                                    @class = "inline-block mb-2 text-base font-medium"
+                                })
+                                @Html.TextBoxFor(x => x.Contrasena, new
+                                {
+                                    @type = "password",
+                                    @class = "form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200",
+                                    @placeholder = "************",
+                                    @required = "required"
+                                })
+                            </div><!--end col-->
+
+                        </div><!--end grid-->
+                            <div class="flex justify-end gap-2 mt-4">
+                                <a href="@Url.Action("Index", "Usuario", new { area = "Admin"})"
+                                   class="text-red-500 bg-white btn hover:text-red-500 hover:bg-red-100 focus:text-red-500 focus:bg-red-100 active:text-red-500 active:bg-red-100 dark:bg-zink-700 dark:hover:bg-red-500/10 dark:focus:bg-red-500/10 dark:active:bg-red-500/10">
+                                    Cancelar
+                                </a>
+                                <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                                    Crear Usuario
+                                </button>
+                            </div>
+</form>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end grid-->
+}
+

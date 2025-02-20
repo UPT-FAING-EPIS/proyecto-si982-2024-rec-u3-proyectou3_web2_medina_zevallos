@@ -1,0 +1,18 @@
+﻿<!-- Views/Invitados/Cargar.cshtml -->
+@{
+    ViewBag.Title = "Carga Masiva de Invitados";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form asp-controller="Invitados" asp-action="Cargar" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="eventoId">ID del Evento</label>
+        <input type="number" name="eventoId" id="eventoId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="archivoInvitados">Subir Archivo CSV</label>
+        <input type="file" name="archivoInvitados" id="archivoInvitados" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Cargar</button>
+</form>

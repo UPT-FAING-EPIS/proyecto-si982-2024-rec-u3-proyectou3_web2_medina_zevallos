@@ -1,0 +1,105 @@
+﻿@model SistemaEventos.Models.Reserva
+@{
+    var usuario = new SistemaEventos.Models.Usuario().
+        Obtener(SistemaEventos.Models.SessionHelper.GetUser());
+
+}
+<section class="relative pb-12 pt-20" id="home">
+    <div class="grid grid-cols-1 gap-x-5 xl:grid-cols-12">
+        <div class="xl:col-span-2">
+        </div>
+            <div class="xl:col-span-8">
+                <br />
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-x-5">
+                    <div class="xl:col-span-12">
+                        <div class="flex gap-1 px-4 py-3 mb-5 text-sm text-green-500 border border-green-200 rounded-md md:items-center bg-green-50 dark:bg-green-400/20 dark:border-green-500/50">
+                            <i data-lucide="shopping-bag" class="h-4 shrink-0"></i> <p>The minimum order requirement is <b>$1,800</b>. To meet this threshold, please add additional products with a combined value of <b>$300</b>.</p>
+                        </div>
+                    </div><!--end col-->
+                    <div class="xl:col-span-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="mb-4 text-15">Shipping Information</h6>
+                                @using (Html.BeginForm("Guardar", "Reserva", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="IdEvento" value="@Model.IdEvento" />
+                                    <input type="hidden" name="IdUsuario" value="@usuario.Id" />
+                                    <input type="hidden" name="Estado" value="pendiente" />
+
+                                    <form action="#!">
+                                        <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-12">
+
+
+                                            <div class="xl:col-span-6">
+                                                <label for="FechaReserva" class="inline-block mb-2 text-base font-medium">Fecha de Reserva</label>
+                                                <input type="date" id="FechaReserva" name="FechaReserva"
+                                                       value="@Model.FechaReserva?.ToString(" yyyy-MM-dd")"
+                                                       class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                                       placeholder="Ingresa una fecha">
+                                            </div><!--end col-->
+                                            <div class="xl:col-span-6">
+                                                <label for="categorySelect" class="inline-block mb-2 text-base font-medium">Nro. Invitados</label>
+                                                <select class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                                        data-choices="" data-choices-search-false="" id="NumeroInvitados" name="NumeroInvitados">
+                                                    <option value="">Selecciona</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                    <option value="24">24</option>
+                                                    <option value="25">25</option>
+                                                    <option value="26">26</option>
+                                                    <option value="27">27</option>
+                                                    <option value="28">28</option>
+                                                    <option value="29">29</option>
+                                                    <option value="30">30</option>
+                                                    <option value="31">31</option>
+                                                    <option value="32">32</option>
+                                                    <option value="33">33</option>
+                                                    <option value="34">34</option>
+                                                    <option value="35">35</option>
+                                                    <option value="36">36</option>
+                                                    <option value="37">37</option>
+                                                    <option value="38">38</option>
+                                                    <option value="39">39</option>
+                                                    <option value="40">40</option>
+                                                    <option value="41">41</option>
+                                                    <option value="42">42</option>
+                                                    <option value="43">43</option>
+                                                    <option value="44">44</option>
+                                                    <option value="45">45</option>
+                                                    <option value="46">46</option>
+                                                    <option value="47">47</option>
+                                                    <option value="48">48</option>
+                                                    <option value="49">49</option>
+                                                </select>
+                                            </div><!--end grid-->
+
+                                            <div class="xl:col-span-6">
+                                                <label for="IdHorario">Horario</label>
+                                                @Html.DropDownList("IdHorario", ViewBag.Horarios as SelectList, "Seleccione un horario",
+                                               new
+                                                    {
+                                                   @class = "form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                                    ,
+                                                        id = "stateInput"
+                                               })
+                                            </div>
+                                            <div class="xl:col-span-6"></div>
+                                            <div class="xl:col-span-6">
+                                                <button type="submit" class="w-full text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                                                    Guardar Reserva
+                                                </button>
+                                            </div>
+                                            <br />
+                                </form>
+                                }
+
+                            </div>
+                        </div><!--end card-->
+                    </div><!--end col-->
+                </div><!--end grid-->
+
+            </div>
+        </div>
+</section>

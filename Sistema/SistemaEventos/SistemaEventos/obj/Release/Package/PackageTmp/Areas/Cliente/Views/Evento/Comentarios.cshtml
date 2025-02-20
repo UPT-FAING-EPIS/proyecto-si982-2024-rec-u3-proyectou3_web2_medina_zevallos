@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SistemaEventos.Models.Resena>
+
+@foreach (var resena in Model)
+{
+            <p >@resena.Usuario.Nombre</p>
+            <p >@resena.Comentario</p>
+            <p>@resena.Calificacion</p>
+}
+@*
+    @foreach (var resena in Model)
+    {
+
+        <div class="pt-3 mt-3 border-t border-slate-200 dark:border-zink-500">
+            <div class="relative ltr:float-right rtl:float-left dropdown">
+                <button class="flex items-center justify-center size-[30px] dropdown-toggle p-0 text-slate-500 btn bg-slate-100 hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20" id="reviews2" data-bs-toggle="dropdown"><i data-lucide="more-horizontal" class="size-3"></i></button>
+                <ul class="absolute z-50 hidden py-2 mt-1 ltr:text-left rtl:text-right list-none bg-white rounded-md shadow-md dropdown-menu min-w-[10rem] dark:bg-zink-600" aria-labelledby="reviews2">
+                    <li>
+                        <a data-modal-target="addReviewsModal" class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!"><i data-lucide="file-edit" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">Edit</span></a>
+                    </li>
+                    <li>
+                        <a data-modal-target="deleteModal" class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!"><i data-lucide="trash-2" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">Delete</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full shrink-0 bg-sky-100 dark:bg-sky-500/20">
+                    <img src="@resena.Usuario.Perfil" alt="" class="h-10 rounded-full">
+                </div>
+                <div class="grow">
+                    <h6 class="text-15"><a href="#!">@resena.Usuario.Nombre</a></h6>
+                    <p class="text-sm text-slate-500 dark:text-zink-200">on 20 July, 2024</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 mt-4 mb-2 text-yellow-500">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-line"></i>
+            </div>
+            @*<p class="text-slate-500 dark:text-zink-200">"Amazing! Fast, to the point, professional and really amazing to work with them!!!"</p>
+<p class="text-slate-500 dark:text-zink-200">"@resena.Comentario"</p>
+<div class="flex items-center gap-3 mt-3">
+        <a href="#!" class="text-slate-500 shrink-0 count-button [&.active]:text-green-500 active"><i data-lucide="thumbs-up" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle count-number">77</span></a>
+        <a href="#!" class="text-slate-500 shrink-0 count-button [&.active]:text-red-500 active"><i data-lucide="thumbs-down" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle count-number">26</span></a>
+    </div>
+    </div>
+}
+*@

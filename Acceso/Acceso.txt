@@ -1,0 +1,17 @@
+Enlace: https://eventifyme-dcd2e7fsamh3g4d8.brazilsouth-01.azurewebsites.net/
+
+Administrador
+------------------
+admin2@example.com
+password2
+
+Cliente
+------------------
+emi@gmail.com
+password5
+
+Tarjeta de Crédito de Ejemplo:
+Número: 4242 4242 4242 4242
+MM/AA: 12/24
+CVC: 123
+Código Postal: 10001

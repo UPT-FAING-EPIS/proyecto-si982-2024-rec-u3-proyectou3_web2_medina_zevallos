@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="ModeloSistema-Web.config Connection String" description="ModeloSistema Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="data source=svranahua2025.database.windows.net.;&#xD;&#xA;   initial catalog=bd_eventos1;&#xD;&#xA;   user id=maynerac;&#xD;&#xA;   password=#mayner12345678;&#xD;&#xA;   MultipleActiveResultSets=True;App=EntityFramework" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\DELL\\Desktop\\Proyectos\\PROYECTO\ KAPTA\\Proyecto\ Kapta\\Sistema\\SistemaEventos\\SistemaEventos\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ModeloSistema']/@connectionString" />
+  </parameter>
+</parameters>

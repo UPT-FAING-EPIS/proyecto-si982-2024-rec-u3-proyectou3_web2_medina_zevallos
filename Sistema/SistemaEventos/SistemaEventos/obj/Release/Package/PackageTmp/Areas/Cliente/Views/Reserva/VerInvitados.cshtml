@@ -1,0 +1,135 @@
+﻿@model IEnumerable<SistemaEventos.Models.Invitado>
+@{
+    ViewBag.Title = "Invitados de la Reserva";
+    int idReserva = ViewBag.IdReserva;
+    int contador = 1; // Inicializa el contador en 1
+    var suma = contador - 1;
+}
+
+<section class="relative pb-12 pt-20" id="home">
+    <div class="container 2xl:max-w-[87.5rem] px-4 mx-auto">
+        <br />
+        <div class="flex items-center gap-3 mb-4">
+            <h6 class="text-15 grow">Lista de Invitados </h6>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full whitespace-nowrap">
+                <thead class="ltr:text-left rtl:text-right">
+                    <tr>
+                        <th class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">#</th>
+                        <th class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">Nombre</th>
+                        <th class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">Dni</th>
+                        <th class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">Correo</th>
+                        <th class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">Fecha</th>
+                        <th class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var invitado in Model)
+                    {
+                        <tr>
+                            <td class="px-3.5 py-2.5 border border-slate-200 dark:border-zink-500">@contador</td>
+                            <td class="px-3.5 py-2.5 border border-slate-200 dark:border-zink-500">@invitado.Nombre</td>
+                            <td class="px-3.5 py-2.5 border border-slate-200 dark:border-zink-500">@invitado.Dni</td>
+                            <td class="px-3.5 py-2.5 border border-slate-200 dark:border-zink-500">@invitado.Correo</td>
+                            <td class="px-3.5 py-2.5 border border-slate-200 dark:border-zink-500">@invitado.FechaCreacion</td>
+                            <td class="px-3.5 py-2.5 border border-slate-200 dark:border-zink-500">
+                                <button class="edit-btn" data-id="@invitado.Id" data-nombre="@invitado.Nombre" data-dni="@invitado.Dni" data-correo="@invitado.Correo" data-fecha="@invitado.FechaCreacion"><i data-lucide="pencil" class="size-4"></i></button>
+                            </td>
+                        </tr>
+                        contador++;
+                    }
+                </tbody>
+            </table>
+        </div>
+        <br />
+
+        <a 
+           href="@Url.Action("VerReserva", "Reserva", new { area = "Cliente", id = @idReserva})"
+           class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600"
+           >Volver a Mi Reserva</a>
+
+
+    </div>
+</section>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div id="editModal" class="hidden fixed flex flex-col transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4">
+    <div class="w-screen md:w-[30rem] bg-white shadow rounded-md dark:bg-zink-600">
+        <div class="flex items-center justify-between p-4 border-b dark:border-zink-500">
+            <h5 class="text-16">Editar Invitado</h5>
+            <button id="closeModal" class="transition-all duration-200 ease-linear text-slate-400 hover:text-red-500"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div class="max-h-[calc(theme('height.screen')_-_180px)] p-4 overflow-y-auto">
+            @using (Html.BeginForm("Edit", "Reserva", FormMethod.Post, new { Area = "Cliente" }))
+            {
+                <input type="hidden" id="editId" name="Id" />
+                <input type="hidden" name="IdReserva" value="@idReserva" />
+                <div class="grid grid-cols-1 gap-4 xl:grid-cols-12">
+                    <div class="xl:col-span-12">
+                        <label for="editNombre" class="inline-block mb-2 text-base font-medium">Nombre</label>
+                        @Html.TextBox("Nombre", null, new { @class = "form-input border-slate-200 dark:border-zink-500", id = "editNombre" })
+                    </div>
+                    <div class="xl:col-span-12">
+                        <label for="editDni" class="inline-block mb-2 text-base font-medium">Dni</label>
+                        @Html.TextBox("Dni", null, new { @class = "form-input border-slate-200 dark:border-zink-500", id = "editDni" })
+                    </div>
+                    <div class="xl:col-span-12">
+                        <label for="editCorreo" class="inline-block mb-2 text-base font-medium">Correo</label>
+                        @Html.TextBox("Correo", null, new { @class = "form-input border-slate-200 dark:border-zink-500", id = "editCorreo" })
+                    </div>
+                    <div class="xl:col-span-12">
+                        <label for="editFechaCreacion" class="inline-block mb-2 text-base font-medium">Fecha</label>
+                        @Html.TextBox("FechaCreacion", null, new { @class = "form-input border-slate-200 dark:border-zink-500", id = "editFechaCreacion" })
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-4">
+                    <button type="button" id="cancelModal" class="text-red-500 bg-white btn hover:text-red-500 hover:bg-red-100 focus:text-red-500 focus:bg-red-100 active:text-red-500 active:bg-red-100 dark:bg-zink-600 dark:hover:bg-red-500/10 dark:focus:bg-red-500/10 dark:active:bg-red-500/10">Cancel</button>
+                    <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Save Changes</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var editButtons = document.querySelectorAll(".edit-btn");
+            var modal = document.getElementById("editModal");
+            var closeModal = document.getElementById("closeModal");
+            var cancelModal = document.getElementById("cancelModal");
+
+            editButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    var id = this.getAttribute("data-id");
+                    var nombre = this.getAttribute("data-nombre");
+                    var dni = this.getAttribute("data-dni");
+                    var correo = this.getAttribute("data-correo");
+                    var fecha = this.getAttribute("data-fecha");
+
+                    document.getElementById("editId").value = id;
+                    document.getElementById("editNombre").value = nombre;
+                    document.getElementById("editDni").value = dni;
+                    document.getElementById("editCorreo").value = correo;
+                    document.getElementById("editFechaCreacion").value = fecha;
+
+                    modal.classList.remove("hidden");
+                });
+            });
+
+            closeModal.addEventListener("click", function () {
+                modal.classList.add("hidden");
+            });
+
+            cancelModal.addEventListener("click", function () {
+                modal.classList.add("hidden");
+            });
+        });
+    </script>
+}

@@ -1,0 +1,64 @@
+﻿@model SistemaEventos.Models.EventoServicio
+
+@{
+    ViewBag.Title = "AgregarEditar";
+    List<SistemaEventos.Models.Evento> eventos = ViewBag.Eventos;
+    List<SistemaEventos.Models.Servicio> servicios = ViewBag.Servicios;
+}
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-4">Asignación de Servicios para Evento</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            @using (Html.BeginForm("Guardar", "EventoServicio", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(x => x.Id)
+                                @*@Html.HiddenFor(x => x.idsServicios)*@
+
+                                <div class="mb-3">
+                                    @Html.Label("Id:", new { @class = "form-label" })
+                                    @Html.TextBoxFor(x => x.Id, new { @class = "form-control", id = "disabledTextInput", placeholder = "Disabled input", @readonly = "readonly", style = "background-color: #f0f0f0" })
+                                </div>
+
+                                <div class="mb-3">
+                                    @Html.Label("Evento:", new { @class = "form-label" })
+                                    <br />
+                                    <select name="IdEvento" class="form-control">
+                                        <option value="">-- Seleccione un evento --</option>
+                                        @foreach (var evento in eventos)
+                                        {
+                                            <option value="@evento.Id">
+                                                @evento.Titulo
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    @Html.Label("Servicio:", new { @class = "form-label" })
+                                    <br />
+                                    @foreach (var servicio in servicios)
+                                    {
+                                        <label>
+                                            <input type="checkbox" name="idsServicios" value="@servicio.Id" />
+                                            @servicio.Nombre 
+                                        </label>
+                                        <br />
+                                    }
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <a href="@Url.Action("Index", "EventoServicio", new { area = "Admin"})" class="btn btn-danger">Cancelar</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

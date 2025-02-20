@@ -1,0 +1,115 @@
+﻿@model SistemaEventos.Models.Pago
+@{
+
+    var usuario = new SistemaEventos.Models.Usuario().Obtener(SistemaEventos.Models.SessionHelper.GetUser());
+    var fechaActual = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"); // Formato para datetime-local
+    decimal data = 0.0M;
+}
+<section class="relative pb-12 pt-20" id="home">
+    <div class="grid grid-cols-1 gap-x-5 xl:grid-cols-12">
+        <div class="xl:col-span-2">
+
+        </div>
+        <div class="xl:col-span-8">
+            <br />
+            <br />
+            <br />
+
+
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-x-5">
+                <div class="xl:col-span-12">
+                    <div class="flex gap-1 px-4 py-3 mb-5 text-sm text-green-500 border border-green-200 rounded-md md:items-center bg-green-50 dark:bg-green-400/20 dark:border-green-500/50">
+                        <i data-lucide="shopping-bag" class="h-4 shrink-0"></i> <p>The minimum order requirement is <b>$1,800</b>. To meet this threshold, please add additional products with a combined value of <b>$300</b>.</p>
+                    </div>
+                </div><!--end col-->
+                <div class="xl:col-span-8">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="mb-4 text-15">Pagos</h6>
+                            @foreach (var p in ViewBag.Pago)
+                            {
+
+                                foreach (var e in ViewBag.Evento)
+                                {
+                                    if (p.Reserva.IdEvento == e.Id)
+                                    {
+                                        data = e.Costo;
+                                        //data = e.CostoPorInvitado;
+                                    }
+                                }
+
+                            }
+                            <div class="grid grid-cols-1 gap-5 xl:grid-cols-2">
+                                <div class="flex items-center gap-3">
+                                    <input id="deliveryOption1" class="border rounded-full appearance-none cursor-pointer size-4 bg-slate-100 border-slate-200 dark:bg-zink-600 dark:border-zink-500 checked:bg-purple-500 checked:border-purple-500 dark:checked:bg-purple-500 dark:checked:border-purple-500 checked:disabled:bg-purple-400 checked:disabled:border-purple-400 peer" type="radio" name="deliveryChoose" value="express-delivery" checked="">
+                                    <label for="deliveryOption1" class="flex flex-col gap-4 p-5 border rounded-md cursor-pointer md:flex-row border-slate-200 dark:border-zink-500 peer-checked:border-purple-500 dark:peer-checked:border-purple-700 grow">
+                                        <span class="shrink-0">
+                                            <img src="~/assets/images/delivery-1.png" alt="" class="h-12">
+                                        </span>
+                                        <span class="grow">
+                                            <span class="block mb-1 font-semibold text-15">Reserva</span>
+                                            <span class="text-slate-500 dark:text-zink-200">Fecha:@fechaActual</span>
+                                        </span>
+                                        <span class="shrink-0">
+                                            <span class="block text-lg font-semibold">Costo:@data</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="card">
+                         <div class="card-body">
+                             <h6 class="mb-4 text-15">Payment Information</h6>
+                             <form action="#!">
+                                 <div class="grid grid-cols-1 gap-5 xl:grid-cols-12">
+                                     <div class="xl:col-span-12">
+                                         <label for="cardNumberInput" class="inline-block mb-2 text-base font-medium">Card Number</label>
+                                         <input type="text" pattern="\d*" maxlength="16" id="cardNumberInput" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="XXXX XXXX XXXX XXXX">
+                                     </div><!--end col-->
+                                     <div class="xl:col-span-6">
+                                         <label for="expiringInput" class="inline-block mb-2 text-base font-medium">Expiring (MM/YY)</label>
+                                         <input type="text" pattern="\d*" maxlength="4" id="expiringInput" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="MM/YY">
+                                     </div><!--end col-->
+                                     <div class="xl:col-span-6">
+                                         <label for="cvvInput" class="inline-block mb-2 text-base font-medium">CVV Code</label>
+                                         <input type="text" pattern="\d*" maxlength="3" id="cvvInput" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="000">
+                                     </div><!--end col-->
+                                 </div><!--end grid-->
+                             </form>
+
+                             <div class="mt-3">
+                                 <h6 class="mb-1">We accept the following cards</h6>
+                                 <div class="flex items-center gap-2">
+                                     <img src="~/assets/images/img-013.png" alt="" class="h-8">
+                                     <img src="~/assets/images/img-022.png" alt="" class="h-8">
+                                     <img src="~/assets/images/img-032.png" alt="" class="h-8">
+                                     <img src="~/assets/images/img-042.png" alt="" class="h-8">
+                                 </div>
+                             </div>
+                             @using (Html.BeginForm("ProcesarPago", "Reserva", FormMethod.Post))
+                             {
+                                 <input type="hidden" name="IdUsuario" value="@usuario.Id" />
+                                 <input type="hidden" name="IdReserva" value="@Model.IdReserva" />
+                                 <input type="hidden" name="FechaPago" value="@fechaActual" />
+                                 @*<button type="submit"
+                                         class="btn btn-primary mt-3">
+                                     Procesar Pago
+                                 </button>*@
+
+                                 <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                                     Procesar Pago
+                                 </button>
+                             }
+                         </div>
+                    </div><!--end card-->
+                    <!--end card-->
+
+                </div><!--end col-->
+            </div><!--end grid-->
+
+        </div>
+    </div>
+</section>

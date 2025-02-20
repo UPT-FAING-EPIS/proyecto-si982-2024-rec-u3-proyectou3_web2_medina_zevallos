@@ -1,0 +1,68 @@
+﻿@model IEnumerable<SistemaEventos.Models.Reserva>
+@{
+    ViewBag.Title = "Mis Reservas";
+    // Obtener el usuario actual de la sesión
+    var usuario = new SistemaEventos.Models.Usuario().Obtener(SistemaEventos.Models.SessionHelper.GetUser());
+}
+
+<section class="relative pb-12 pt-20" id="home">
+    <div class="container 2xl:max-w-[87.5rem] px-4 mx-auto">
+        <br />
+        <h5 class="mb-5 underline">Mis Reservas</h5>
+        @foreach (var item in Model)
+        {
+            if (@item.IdUsuario == @usuario.Id)
+            {
+                <div class="grid grid-cols-1 gap-x-5 md:grid-cols-1 xl:grid-cols-1">
+                    @if (item.Id < 0 && item.Id == 0)
+                    {
+                        <p>No hay reservas</p>
+                    }
+                    @if (item.Estado == "pendiente")
+                    {
+                        <div class="bg-red-500 border-red-500 card dark:bg-red-500 dark:border-red-500">
+                            <div class="card-body">
+                                <h6 class="mb-4 text-white text-15">
+                                    @item.Evento.Titulo
+                                </h6>
+                                <p class="mb-4 text-red-200 dark:text-red-200">
+                                    Descripcion: @item.Evento.Descripcion
+                                    <br />
+                                    Fecha: @item.FechaReserva
+                                    <br />
+                                    Estado: @item.Estado
+                                </p>
+                                <a class="inline-flex items-center gap-2 text-sm font-medium text-red-300 transition-all duration-200 ease-linear hover:text-red-100"
+                                   href="@Url.Action("VerReserva", "Reserva", new { area = "Cliente", id = item.Id })">
+                                    Card link <i data-lucide="chevron-right" class="inline-block size-4"></i>
+                                </a>
+                            </div>
+                        </div><!--end card-->
+                    }
+                    else
+                    {
+                        <div class="card bg-custom-500 border-custom-500 dark:bg-custom-800 dark:border-custom-800">
+                            <div class="card-body">
+                                <h6 class="mb-4 text-white text-15">
+                                    @item.Evento.Titulo
+                                </h6>
+                                <p class="mb-4 dark:text-custom-300 text-custom-200">
+
+                                    Descripcion: @item.Evento.Descripcion
+                                    <br />
+                                    Fecha: @item.FechaReserva
+                                    <br />
+                                    Estado: @item.Estado
+                                </p>
+                                <a class="inline-flex items-center gap-2 text-sm font-medium text-red-300 transition-all duration-200 ease-linear hover:text-red-100"
+                                   href="@Url.Action("VerReserva", "Reserva", new { area = "Cliente", id = item.Id })">
+                                    Ver Reserva <i data-lucide="chevron-right" class="inline-block size-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+</section>

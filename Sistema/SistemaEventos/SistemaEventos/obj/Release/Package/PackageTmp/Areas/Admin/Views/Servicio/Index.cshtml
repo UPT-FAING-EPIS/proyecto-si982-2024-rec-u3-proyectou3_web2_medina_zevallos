@@ -1,0 +1,91 @@
+﻿@model IEnumerable<SistemaEventos.Models.Servicio>
+@{
+    ViewBag.Title = "Index";
+    var _EventosServicio = ViewBag.Evento;
+}
+
+<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div class="grow">
+        <h5 class="text-16">Servicios</h5>
+    </div>
+    <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+        <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+            <a href="@Url.Action("Index", "Home", new { area = "Admin"})" class="text-slate-400 dark:text-zink-200">Home</a>
+        </li>
+        <li class="text-slate-700 dark:text-zink-100">
+            Servicios
+        </li>
+    </ul>
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+
+        <div class="flex items-end">
+            <div class="shrink-0">
+                <a href="@Url.Action("AgregarEditar", "Evento", new { area = "Admin"})"
+                   type="button"
+                   class="text-white btn bg-custom-500 border-custom-500 hover:text-white
+                 hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600
+                 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600
+                 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                    <i data-lucide="plus" class="inline-block size-4"></i> <span class="align-middle">
+                        Add Event
+                    </span>
+                </a>
+            </div>
+        </div>
+        <br />
+
+
+        <table id="basic_tables" class="display stripe group" style="width:100%">
+            <thead>
+                <tr>
+                    <th class="ltr:!text-left rtl:!text-right">Id</th>
+                    <th>Nombre          </th>
+                    <th>Descripcion     </th>
+                    <th>Precio          </th>
+                    <th>Fecha de Creacion       </th>
+                    <th>Fecha de Actualizacion  </th>
+                    <th>Action                  </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td> @m.Id</td>
+                        <td style="width: 200px"> @m.Nombre</td>
+                        <td style="max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@m.Descripcion</td>
+                        <td style="width: 200px"> @m.Precio</td>
+                        <td style="width: 200px"> @m.FechaCreacion</td>
+                        <td style="width: 200px"> @m.FechaActualizacion</td>
+                        <td>
+                            <div class="flex gap-2">
+                                <div class="edit">
+
+                                    <a @*href="~/Evento/AgregarEditar/@m.Id"*@
+                                       href="@Url.Action("AgregarEditar", "Evento", new { area = "Admin", id = m.Id })"
+                                       class="py-1 text-xs text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 edit-item-btn">
+                                        Edit
+                                    </a>
+
+                                </div>
+                                <div class="remove">
+                                    <a @*href="~/Evento/Eliminar/@m.Id"*@ id="delete-record"
+                                       href="@Url.Action("Eliminar", "Evento", new { area = "Admin", id = m.Id })"
+                                       class="py-1 text-xs text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-custom-400/20 remove-item-btn"
+                                       onclick="return confirm('¿Está seguro?')">Delete</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

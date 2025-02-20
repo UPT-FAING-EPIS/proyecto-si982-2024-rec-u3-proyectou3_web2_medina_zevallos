@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Index";
+    
+}
+<section class="relative pb-36 pt-44" id="home">
+    <div class="absolute rotate-45 border border-dashed size-[500px] border-t-slate-300 dark:border-t-zink-500 border-l-slate-300 dark:border-l-zink-500 border-r-slate-700 dark:border-r-zink-400 border-b-slate-700 dark:border-b-zink-400 -bottom-[250px] rounded-full ltr:right-40 rtl:left-40 z-10 hidden lg:block"></div>
+    <div class="absolute rotate-45 border border-dashed size-[700px] border-t-slate-300 dark:border-t-zink-500 border-l-slate-300 dark:border-l-zink-500 border-r-slate-700 dark:border-r-zink-400 border-b-slate-700 dark:border-b-zink-400 -bottom-[350px] rounded-full ltr:right-16 rtl:left-16 z-10 hidden 2xl:block"></div>
+    <div class="container 2xl:max-w-[87.5rem] px-4 mx-auto">
+        <div class="grid grid-cols-12 2xl:grid-cols-2">
+            <div class="col-span-12 lg:col-span-7 2xl:col-span-1">
+                <h1 class="mb-8 !leading-relaxed md:text-5xl">Organiza tu evento <span class="relative inline-block px-2 mx-2 before:block before:absolute before:-inset-1 before:-skew-y-6 before:bg-sky-50 dark:before:bg-sky-500/20 before:rounded-md before:backdrop-blur-xl"><span class="relative text-sky-500">EventifyMe</span></span></h1>
+                <p class="mb-6 text-lg text-slate-500 dark:text-zink-200">
+                    Explora el mejor catálogo de eventos y encuentra la opción perfecta para ti!
+                </p>
+                @*<div class="flex items-center gap-2">
+                        <button type="button" class="py-2.5 px-6 text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20"><i data-lucide="rocket" class="inline-block align-middle size-4 rtl:ml-1 ltr:mr-1"></i> Get Started</button>
+                        <button type="button" class="py-2.5 px-6 text-red-500 bg-white border-red-500 border-dashed btn hover:text-red-500 hover:bg-red-50 hover:border-red-600 focus:text-red-600 focus:bg-red-50 focus:border-red-600 active:text-red-600 active:bg-red-50 active:border-red-600 dark:bg-zink-800 dark:ring-red-400/20 dark:hover:bg-red-800/20 dark:focus:bg-red-800/20 dark:active:bg-red-800/20"><i data-lucide="shopping-cart" class="inline-block align-middle size-4 rtl:ml-1 ltr:mr-1"></i> <span class="align-middle">Buy Now</span></button>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+
+    <df-messenger project-id="modelo-sistemakapta"
+                  agent-id="037180cf-6b15-4e60-b117-40dd5668b85a"
+                  language-code="es"
+                  max-query-length="-1">
+        <df-messenger-chat chat-title="">
+        </df-messenger-chat>
+    </df-messenger>
+
+
+</section>
+
+<section class="relative py-32 bg-slate-900 dark:bg-zink-700" id="features">
+    <div class="container 2xl:max-w-[87.5rem] px-4 mx-auto">
+        <div class="grid grid-cols-1 gap-5 xl:grid-cols-12">
+            <div class="order-2 xl:col-span-5 xl:order-1">
+                <div class="relative z-10 grid grid-cols-3 gap-5 xl:grid-cols-12">
+                    <div class="xl:col-span-12">
+                        <img src="~/Content/Images/Quinceaños.jpg" alt="eventos" class="shadow-xl rtl:mr-auto ltr:ml-auto rounded-xl" />
+                        @*<img src="assets/images/widgets.jpg" alt="" class="shadow-xl rtl:mr-auto ltr:ml-auto rounded-xl">*@
+                    </div>
+                    <div class="xl:col-span-6">
+                        @*<img src="assets/images/widgets-3.jpg" alt="" class="shadow-xl xl:mt-5 rtl:mr-auto ltr:ml-auto rounded-xl">*@
+                        <img src="~/Content/Images/Cumpleaños.jpg" alt="cumpleaños" class="shadow-xl xl:mt-5 rtl:mr-auto ltr:ml-auto rounded-xl"/>
+                    </div>
+                    <div class="xl:col-span-6">
+                        @*<img src="assets/images/widgets-2.jpg" alt="" class="shadow-xl xl:mt-5 rtl:mr-auto ltr:ml-auto rounded-xl">*@
+                        <img src="~/Content/Images/Matrimonio.jpg" alt="matrimonio" class="shadow-xl xl:mt-5 rtl:mr-auto ltr:ml-auto rounded-xl"/>
+                    </div>
+                </div>
+            </div>
+            <div class="relative z-20 order-1 xl:-mt-72 xl:col-span-7 xl:order-last">
+                @*<img src="assets/images/home.jpg" alt="" class="shadow-2xl rounded-xl">*@
+                <img src="~/Content/Images/Eventos.jpg" alt="eventos" class="shadow-2xl rounded-xl" />
+            </div>
+        </div>
+        <div class="mt-24">
+            @*<h1 class="mb-16 leading-normal capitalize text-slate-100 dark:text-zink-50">Reserva</h1>*@
+        </div>
+    </div>
+    <div class="absolute rotate-45 border border-dashed size-[500px] border-t-slate-700 border-l-slate-700 border-r-slate-700 border-b-slate-700 bottom-48 rounded-full ltr:-left-80 rtl:-right-80 hidden md:block"></div>
+    <div class="absolute rotate-45 border border-dashed size-[700px] border-t-slate-700 border-l-slate-700 border-r-slate-700 border-b-slate-700 bottom-24 rounded-full ltr:-left-96 rtl:-right-96 hidden md:block"></div>
+</section>

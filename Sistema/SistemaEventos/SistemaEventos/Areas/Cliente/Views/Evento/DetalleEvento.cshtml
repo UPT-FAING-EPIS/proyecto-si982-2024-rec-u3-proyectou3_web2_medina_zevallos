@@ -1,0 +1,348 @@
+﻿@model SistemaEventos.Models.DetalleEvento
+@{
+    if (Model == null)
+    {
+        <h2>Error: El modelo no está disponible.</h2>
+        return;
+    }
+
+    var fechaActual = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+    var userId = SistemaEventos.Models.SessionHelper.GetUser();
+    SistemaEventos.Models.Usuario usuario = null;
+    if (userId != null)
+    {
+        usuario = new SistemaEventos.Models.Usuario().Obtener(userId);
+    }
+
+}
+<section class="relative pb-12 pt-20" id="home">
+    <div class="grid grid-cols-1 gap-x-5 xl:grid-cols-12">
+        <div class="xl:col-span-4">
+            <div class="sticky top-[calc(theme('spacing.header')_*_1.3)] mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="grid grid-cols-1 gap-5 md:grid-cols-12">
+                            <div class="rounded-md md:col-span-12 md:row-span-2 bg-slate-100 dark:bg-zink-1200">
+                                <img src="@Model.ImagenUrl" alt="">
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2 mt-4 shrink-0">
+
+                            @if (usuario != null)
+                            {
+                                <a href="@Url.Action("Index", "Reserva", new { area = "Cliente", id = Model?.IdEvento })"
+                                   type="button"
+                                   class="w-full text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-red-400/20">
+                                    Reservar
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Index", "Login", new { area = "Cliente" })"
+                                   type="button"
+                                   class="w-full bg-white border-dashed text-custom-500 btn border-custom-500 hover:text-custom-500 hover:bg-custom-50 hover:border-custom-600 focus:text-custom-600 focus:bg-custom-50 focus:border-custom-600 active:text-custom-600 active:bg-custom-50 active:border-custom-600 dark:bg-zink-700 dark:ring-custom-400/20 dark:hover:bg-custom-800/20 dark:focus:bg-custom-800/20 dark:active:bg-custom-800/20">
+                                    <i data-lucide="shopping-cart" class="inline-block align-middle size-3 ltr:mr-1 rtl:ml-1"></i>
+                                    <span class="align-middle">Inicia Sesion para Reservar</span>
+                                </a>
+                            }
+                        </div>
+
+                    </div>
+                </div><!--end card-->
+                <div class="card">
+                    <div class="border-b card-body border-slate-200 dark:border-zink-500">
+                        <div class="flex">
+                            <h6 class="grow text-15"><i data-lucide="store" class="inline-block size-4 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">@Model.Evento.Titulo</span></h6>
+                            <div class="shrink-0">
+                                <i data-lucide="star" class="inline-block text-yellow-500 size-4 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">(4.8)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="flex">
+                            <h6 class="grow text-15"><i data-lucide="map-pin" class="inline-block text-orange-500 size-4 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle"> @Model.Ubicacion </span></h6>
+
+                        </div>
+                    </div>
+                </div><!--end card-->
+            </div>
+        </div><!--end col-->
+        <div class="xl:col-span-8">
+            <div class="card">
+                <div class="card-body">
+
+                    <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-sky-100 border-sky-100 text-sky-500 dark:bg-sky-400/20 dark:border-transparent"> Nuevos Eventos</span>
+                    <h5 class="mt-3 mb-1">@Model.Evento.Titulo</h5>
+
+                    <div class="flex flex-wrap items-center gap-3 mb-4">
+                        <div class="flex items-center gap-2 text-yellow-500">
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-half-line"></i>
+
+                            <div class="text-slate-800 dark:text-zink-50 shrink-0">
+                                <h6>(4.8)</h6>
+                            </div>
+                        </div>
+                        <div class="shrink-0">
+                            <h6>973 Reviews</h6>
+                        </div>
+                        <div class="shrink-0">
+                            <h6>1,231 Sold</h6>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="mb-1 text-green-500">Special Price</p>
+                        <h4>$ @Model.Evento.Costo <small class="font-normal line-through align-middle text-slate-500 dark:text-zink-200">$1599.99</small> <small class="text-green-500 align-middle">20% Off</small></h4>
+                    </div>
+                    <h6 class="mt-5 mb-3 text-15">Detalle</h6>
+
+                    <div class="grid grid-cols-1 gap-5 my-5 xl:grid-cols-3">
+
+                        <div class="flex items-center gap-5 p-4 border rounded-md border-slate-200 dark:border-zink-500">
+                            <div class="flex items-center justify-center">
+                                <i data-lucide="container" class="w-6 h-6 text-slate-500 fill-slate-200 dark:text-zink-200 dark:fill-zink-500"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Costo por Invitado</h6>
+                                <p class="text-slate-500 dark:text-zink-200"> $@Model.Evento.CostoPorInvitado</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <h6 class="mb-3 text-15">Descripcion:</h6>
+                        <p class="mb-2 text-slate-500 dark:text-zink-200">
+                            @Model.Evento.Descripcion
+                        </p>
+                        <p class="text-slate-500 dark:text-zink-200"><b>Avoid shapeless and baggy clothing</b>. Stay away from pieces with extra fabric at the hips or bust to keep your look proportionate. Avoid wearing ruffles or pleats around your waist or hips. Be sure to wear supportive undergarments that fit you well!</p>
+                    </div>
+
+                    <div class="mt-5">
+                        <h6 class="mb-3 text-15">Servicios:</h6>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <tbody>
+                                    <tr>
+                                        <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">
+                                            Incluye
+                                        </th>
+                                        <td class="px-3.5 py-2.5 border-b border-transparent">Fotografia</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">
+                                            Incluye
+                                        </th>
+                                        <td class="px-3.5 py-2.5 border-b border-transparent">Musica</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">
+                                            Incluye
+                                        </th>
+                                        <td class="px-3.5 py-2.5 border-b border-transparent">Barra Libre</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <h6 class="mt-5 mb-3 text-15">Calificaciones y reseñas</h6>
+                    <div class="grid grid-cols-1 gap-5 xl:grid-cols-12">
+                        <div class="xl:col-span-4">
+                            <div class="border border-dashed rounded-md border-slate-200 dark:border-zink-500">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h5 class="mb-2 text-16">Calificaciones de clientes</h5>
+                                        <span class="px-3.5 py-1.5 inline-flex gap-3 text-xs font-medium rounded-full border bg-slate-100 border-slate-100 text-slate-500 dark:bg-zink-600 dark:text-zink-200 dark:border-zink-600">
+                                            <span class="flex items-center gap-2 text-yellow-500">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-half-line"></i>
+                                            </span>
+                                            (4.8 out of 5)
+                                        </span>
+                                        <p class="mt-2 text-sm text-slate-500 dark:text-zink-200">4,213 total ratings</p>
+                                    </div>
+                                    <div class="flex flex-col gap-3 mt-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="text-sm shrink-0">
+                                                5 <i class="ml-1 text-yellow-500 align-middle ri-star-fill"></i>
+                                            </div>
+                                            <div class="w-full h-1.5 rounded-full bg-slate-200 dark:bg-zink-600">
+                                                <div class="h-1.5 rounded-full bg-green-500" style="width: 79%"></div>
+                                            </div>
+                                            <div class="text-sm text-right w-9 shrink-0">
+                                                1,210
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="text-sm shrink-0">
+                                                4 <i class="ml-1 text-yellow-500 align-middle ri-star-fill"></i>
+                                            </div>
+                                            <div class="w-full h-1.5 rounded-full bg-slate-200 dark:bg-zink-600">
+                                                <div class="h-1.5 rounded-full bg-sky-500" style="width: 66%"></div>
+                                            </div>
+                                            <div class="text-sm text-right w-9 shrink-0">
+                                                1,174
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="text-sm shrink-0">
+                                                3 <i class="ml-1 text-yellow-500 align-middle ri-star-fill"></i>
+                                            </div>
+                                            <div class="w-full h-1.5 rounded-full bg-slate-200 dark:bg-zink-600">
+                                                <div class="h-1.5 rounded-full bg-purple-500" style="width: 45%"></div>
+                                            </div>
+                                            <div class="text-sm text-right w-9 shrink-0">
+                                                762
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="text-sm shrink-0">
+                                                2 <i class="ml-1 text-yellow-500 align-middle ri-star-fill"></i>
+                                            </div>
+                                            <div class="w-full h-1.5 rounded-full bg-slate-200 dark:bg-zink-600">
+                                                <div class="h-1.5 rounded-full bg-yellow-500" style="width: 22%"></div>
+                                            </div>
+                                            <div class="text-sm text-right w-9 shrink-0">
+                                                274
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="text-sm shrink-0">
+                                                1 <i class="ml-1 text-yellow-500 align-middle ri-star-fill"></i>
+                                            </div>
+                                            <div class="w-full h-1.5 rounded-full bg-slate-200 dark:bg-zink-600">
+                                                <div class="h-1.5 rounded-full bg-red-500" style="width: 5%"></div>
+                                            </div>
+                                            <div class="text-sm text-right w-9 shrink-0">
+                                                32
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--end col-->
+                        <div class="xl:col-span-8">
+                            <div class="flex items-center gap-3 mb-4">
+                                <h5 class="text-16 grow">Comentarios</h5>
+                            </div>
+
+
+                            @foreach (var resena in ViewBag.Comentario2)
+                            {
+                                if (resena.IdEvento == Model.IdEvento)
+                                {
+                                    <div class="pt-3 mt-3 border-t border-slate-200 dark:border-zink-500">
+
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-full shrink-0 bg-sky-100 dark:bg-sky-500/20">
+                                                <img src="@resena.Usuario.Perfil" alt="" class="h-10 rounded-full">
+                                            </div>
+                                            <div class="grow">
+                                                <h6 class="text-15"><a href="#!">@resena.Usuario.Nombre</a></h6>
+                                                <p class="text-sm text-slate-500 dark:text-zink-200">@resena.FechaCreacion</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-2 mt-4 mb-2 text-yellow-500">
+                                            @for (int i = 0; i < resena.Calificacion; i++)
+                                            {
+                                                <i class="ri-star-fill"></i>
+                                            }
+                                            @if (resena.Calificacion == 4)
+                                            {
+                                                <i class="ri-star-line"></i>
+                                            }
+                                            else if (resena.Calificacion == 3)
+                                            {
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                            }
+                                            else if (resena.Calificacion == 2)
+                                            {
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                            }
+                                            else if (resena.Calificacion == 1)
+                                            {
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                            }
+                                        </div>
+                                        <p class="text-slate-500 dark:text-zink-200">"@resena.Comentario"</p>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                        <div class="xl:col-span-8">
+                            <div class="flex items-center gap-3 mb-4">
+                                <h5 class="text-16 grow">Agregar Cometario</h5>
+                            </div>
+                            @*@if (isAuthenticated)*@
+                            @if (usuario != null)
+                            {
+                                using (Html.BeginForm("AgregarComentario", "Evento", FormMethod.Post, new { area = "Cliente" }))
+                                {
+                                    <input type="hidden" name="IdEvento" value="@Model.Evento.Id" />
+                                    <input type="hidden" name="IdUsuario" value="@usuario.Id" />
+
+                                    <input type="hidden" name="IdDetalleEvento" value="@Model.Id" />
+
+                                    <input type="hidden" name="FechaCreacion" value="@fechaActual" />
+
+                                    <div class="flex gap-3 mt-4">
+                                        <div class="bg-pink-100 rounded-full size-9 shrink-0 dark:bg-pink-500/20">
+                                            <img src="@usuario.Perfil" alt="" class="rounded-full size-9">
+                                        </div>
+                                        <div class="grow">
+                                            <textarea class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                                      id="Comentario" name="Comentario" placeholder="Agregar tu Comentario ..." rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="grow">
+                                        <div>
+                                            <label for="categorySelect" class="inline-block mb-2 text-base font-medium">Calificación</label>
+                                            <select class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                                    data-choices="" data-choices-search-false="" id="Calificacion" name="Calificacion">
+                                                <option value="">Select Rating</option>
+                                                <option value="5">5 Star</option>
+                                                <option value="4">4 Star</option>
+                                                <option value="3">3 Star</option>
+                                                <option value="2">2 Star</option>
+                                                <option value="1">1 Star</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 text-right">
+
+                                        <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                                            Agregar Comentario
+                                        </button>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+
+                                <p class="text-slate-500 dark:text-zink-200">Debes <a href="@Url.Action("Index", "Login", new { area = "Cliente" })"> <b>iniciar sesión</b> </a> para agregar un comentario.</p>
+                            }
+
+                        </div><!--end col-->
+                    </div><!--end grid-->
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end grid-->
+</section>
+
