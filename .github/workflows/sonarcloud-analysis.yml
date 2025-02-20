@@ -18,7 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Paso 2: Configurar la versión de .NET (si es necesario)
+      # Paso 2: Configurar la versión de .NET
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -28,14 +28,14 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore Sistema/SistemaEventos/SistemaEventos.sln
 
-      # Paso 4: Configuración de SonarCloud usando la variable de entorno
+      # Paso 4: Configuración de SonarCloud
       - name: Set up SonarCloud
         uses: SonarSource/sonarcloud-github-action@v1
         with:
           entryPoint: sonar-scanner
           args: |
-            -Dsonar.organization=justinzp
-            -Dsonar.projectKey=JustinZP_proyecto-si982-2024-rec-u3-proyectou3_web2_medina_zevallos
+            -Dsonar.organization=your_organization
+            -Dsonar.projectKey=your_project_key
             -Dsonar.sources=.
             -Dsonar.host.url=https://sonarcloud.io
         env:
