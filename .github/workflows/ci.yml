@@ -1,4 +1,4 @@
-name: Run Unit Tests - ASP.NET
+name: Build and Test - ASP.NET
 
 on:
   push:
@@ -11,8 +11,8 @@ on:
       - develop
 
 jobs:
-  test:
-    runs-on: ubuntu-latest  # También puedes usar 'windows-latest' si prefieres un entorno de Windows
+  build:
+    runs-on: windows-latest  # Usamos Windows para trabajar con proyectos .NET
 
     steps:
     # Paso 1: Checkout del código
@@ -24,41 +24,27 @@ jobs:
     - name: Set up .NET SDK
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '6.0'  # Usa la versión de .NET que se aplica a tu proyecto (5.0, 6.0, 7.0, etc.)
-      # Este paso configura el SDK de .NET en el entorno
+        dotnet-version: '6.0'  # Cambia la versión de .NET según tu proyecto
 
-    # Paso 3: Restaurar dependencias
-    - name: Restore dependencies
-      run: dotnet restore
-      # Ejecuta 'dotnet restore' para restaurar todas las dependencias definidas en el proyecto
+    # Paso 3: Restaurar dependencias NuGet
+    - name: Restore NuGet packages
+      run: dotnet restore Sistema/SistemaEventos/SistemaEventos.sln
+      # Esto restaurará todos los paquetes NuGet necesarios para el proyecto
 
-    # Paso 4: Ejecutar pruebas unitarias
-    - name: Run Unit Tests with dotnet test
-      run: |
-        dotnet test --configuration Release --logger "trx;LogFileName=test_results.trx" --no-build
-        # --configuration Release: Ejecuta las pruebas en el modo de configuración 'Release' (optimizado)
-        # --logger "trx": Genera un reporte en formato .trx para análisis de resultados
-        # --no-build: Evita la recompilación del proyecto si no es necesario
+    # Paso 4: Compilar el proyecto
+    - name: Build the project
+      run: dotnet build Sistema/SistemaEventos/SistemaEventos.sln --configuration Release --no-restore
+      # El flag --no-restore es para evitar restaurar de nuevo los paquetes si ya se restauraron
 
-    # Paso 5: Subir resultados de las pruebas (opcional)
+    # Paso 5: Ejecutar pruebas unitarias
+    - name: Run Unit Tests
+      run: dotnet test Sistema/SistemaEventos/SistemaEventos.sln --configuration Release
+      # Aquí puedes agregar tu lógica para ejecutar las pruebas unitarias
+
+    # Paso 6: Subir resultados de las pruebas (opcional)
     - name: Upload Test Results
       uses: actions/upload-artifact@v3
       with:
         name: test-results
         path: test_results.trx
-        # Sube los resultados de las pruebas como un artefacto para análisis posterior
-
-    # Paso 6: Manejo de fallos en las pruebas
-    - name: Check for test failures and handle failure
-      if: failure()
-      run: |
-        echo "Some tests failed. Please check the test results for more details."
-        exit 1
-        # Si alguna prueba falla, imprime un mensaje detallado y marca el job como fallido (exit 1)
-
-    # Paso 7: Notificar si las pruebas pasan (opcional)
-    - name: Notify if tests pass
-      if: success()
-      run: |
-        echo "All tests passed successfully!"
-        # Este paso opcional notifica si todas las pruebas pasaron correctamente
+        # Esto subirá los resultados de las pruebas como un artefacto para su análisis posterior
