@@ -32,3 +32,4 @@ jobs:
             -Dsonar.projectKey=JustinZP_proyecto-si982-2024-rec-u2-proyectou2_web2_medina_zevallos \
             -Dsonar.sources=. \
             -Dsonar.host.url=https://sonarcloud.io
+            
