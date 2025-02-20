@@ -1,4 +1,4 @@
-name: Build and Test - ASP.NET
+name: Build and Deploy - ASP.NET
 
 on:
   push:
@@ -12,39 +12,34 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest  # Usamos Windows para trabajar con proyectos .NET
+    runs-on: windows-latest  # Usamos un runner de Windows
 
     steps:
-    # Paso 1: Checkout del código
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-      # Esto asegura que el código más reciente esté disponible para los siguientes pasos
+      # Paso 1: Checkout del código
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    # Paso 2: Configurar .NET SDK
-    - name: Set up .NET SDK
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '6.0'  # Cambia la versión de .NET según tu proyecto
+      # Paso 2: Configurar .NET SDK
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0'  
 
-    # Paso 3: Restaurar dependencias NuGet
-    - name: Restore NuGet packages
-      run: dotnet restore Sistema/SistemaEventos/SistemaEventos.sln
-      # Esto restaurará todos los paquetes NuGet necesarios para el proyecto
+      # Paso 3: Restaurar paquetes NuGet
+      - name: Restore NuGet packages
+        run: dotnet restore Sistema/SistemaEventos/SistemaEventos.sln
 
-    # Paso 4: Compilar el proyecto
-    - name: Build the project
-      run: dotnet build Sistema/SistemaEventos/SistemaEventos.sln --configuration Release --no-restore
-      # El flag --no-restore es para evitar restaurar de nuevo los paquetes si ya se restauraron
+      # Paso 4: Construir el proyecto
+      - name: Build project
+        run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=Sistema/SistemaEventos/bin/Release/publish
 
-    # Paso 5: Ejecutar pruebas unitarias
-    - name: Run Unit Tests
-      run: dotnet test Sistema/SistemaEventos/SistemaEventos.sln --configuration Release
-      # Aquí puedes agregar tu lógica para ejecutar las pruebas unitarias
+      # Paso 5: Opcional: Ejecutar pruebas unitarias
+      - name: Run Tests
+        run: dotnet test Sistema/SistemaEventos/SistemaEventos.sln --configuration Release
 
-    # Paso 6: Subir resultados de las pruebas (opcional)
-    - name: Upload Test Results
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-results
-        path: test_results.trx
-        # Esto subirá los resultados de las pruebas como un artefacto para su análisis posterior
+      # Paso 6: Publicar los artefactos (si es necesario)
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: publish-artifacts
+          path: Sistema/SistemaEventos/bin/Release/publish
