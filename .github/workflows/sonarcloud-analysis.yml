@@ -24,9 +24,9 @@ jobs:
         with:
           dotnet-version: '7.x'  # Ajusta según la versión que estés utilizando
 
-      # Paso 3: Restaurar los paquetes NuGet
+      # Paso 3: Restaurar los paquetes NuGet (asegurándote de que apunte a la solución correcta)
       - name: Restore NuGet packages
-        run: dotnet restore
+        run: dotnet restore Sistema/SistemaEventos/SistemaEventos.sln
 
       # Paso 4: Configuración de SonarCloud
       - name: Set up SonarCloud
