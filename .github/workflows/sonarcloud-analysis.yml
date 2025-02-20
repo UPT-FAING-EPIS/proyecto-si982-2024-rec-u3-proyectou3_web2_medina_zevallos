@@ -1,0 +1,34 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main   # Configura la rama principal
+  pull_request:
+    branches:
+      - main   # Configura la rama principal
+
+jobs:
+  sonarcloud:
+    name: Analyze on SonarCloud
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Checkout del código
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Paso 2: Configuración de SonarCloud
+      - name: Set up SonarCloud
+        uses: SonarSource/sonarcloud-github-action@v1
+        with:
+          sonarcloud-token: ${{ secrets.SONAR_TOKEN }}  # Usando el token de SonarCloud guardado como secreto
+
+      # Paso 3: Ejecutar el análisis con SonarScanner
+      - name: Run SonarCloud scanner
+        run: |
+          sonar-scanner \
+            -Dsonar.organization=justinzp \
+            -Dsonar.projectKey=JustinZP_proyecto-si982-2024-rec-u2-proyectou2_web2_medina_zevallos \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=https://sonarcloud.io

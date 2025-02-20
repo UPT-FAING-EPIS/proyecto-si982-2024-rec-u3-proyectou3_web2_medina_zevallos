@@ -22,10 +22,10 @@ jobs:
         dotnet-version: '9.0.101'
 
     - name: Restaurar dependencias
-      run: dotnet restore ./Sistema/SistemaEventos/SistemaEventos.sln
+      run: dotnet restore ./ProyectoTests/
 
     - name: Construir el proyecto
-      run: dotnet build ./Sistema/SistemaEventos/SistemaEventos.sln --configuration Release --no-restore
+      run: dotnet build ./ProyectoTests/ --configuration Release --no-restore
 
     - name: Ejecutar pruebas unitarias
-      run: dotnet test ./ProyectoFTests/ --configuration Release --no-build --verbosity normal
+      run: dotnet test ./ProyectoTests/ --configuration Release --no-build --verbosity normal
