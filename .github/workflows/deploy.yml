@@ -19,11 +19,19 @@ jobs:
     - name: Verificar archivos en el workspace
       run: Get-ChildItem -Path . -Recurse -ErrorAction Continue
 
-    - name: Restaurar paquetes
-      run: nuget restore Sistema/SistemaEventos/SistemaEventos.sln
+    - name: Limpiar caché de paquetes NuGet
+      run: dotnet nuget locals all --clear
+
+    - name: Restaurar paquetes NuGet
+      run: |
+        nuget restore Sistema/SistemaEventos/SistemaEventos.sln
+        dotnet restore Sistema/SistemaEventos/SistemaEventos.sln
 
     - name: Instalar MSBuild
       uses: microsoft/setup-msbuild@v1.1
+
+    - name: Limpiar la solución antes de compilar
+      run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /t:Clean
 
     - name: Crear estructura de carpetas de salida
       run: mkdir -p Sistema/SistemaEventos/bin/Release/publish
