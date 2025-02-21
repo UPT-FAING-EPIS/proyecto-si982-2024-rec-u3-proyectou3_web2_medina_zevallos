@@ -19,20 +19,20 @@ jobs:
       - name: Verificar archivos en el workspace
         run: Get-ChildItem -Path . -Recurse -ErrorAction Continue
 
-      - name: Setup NuGet
+      - name: Configurar NuGet
         uses: NuGet/setup-nuget@v1
 
       - name: Restaurar paquetes NuGet
         run: nuget restore Sistema/SistemaEventos/SistemaEventos.sln
+
+      - name: Forzar reinstalación de paquetes NuGet
+        run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /t:Restore /p:RestorePackagesConfig=true
 
       - name: Instalar MSBuild
         uses: microsoft/setup-msbuild@v1.1
 
       - name: Verificar instalación de MSBuild
         run: where msbuild
-
-      - name: Crear estructura de carpetas de salida
-        run: mkdir -p Sistema/SistemaEventos/bin/Release/publish
 
       - name: Compilar solución
         run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=Sistema/SistemaEventos/bin/Release/publish
