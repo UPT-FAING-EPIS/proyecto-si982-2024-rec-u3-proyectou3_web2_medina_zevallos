@@ -1,7 +1,10 @@
-name: Deploy to Azure
+name: Deploy EventifyMe
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -10,42 +13,45 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Configurar Git para nombres largos
-      run: git config --system core.longpaths true
+      - name: Checkout del código
+        uses: actions/checkout@v3
 
-    - name: Checkout código
-      uses: actions/checkout@v4
+      - name: Configurar .NET Framework
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '4.7.2'
 
-    - name: Verificar archivos en el workspace
-      run: Get-ChildItem -Path . -Recurse -ErrorAction Continue
+      - name: Configurar NuGet
+        uses: nuget/setup-nuget@v1
 
-    - name: Limpiar caché de paquetes NuGet
-      run: dotnet nuget locals all --clear
+      - name: Restaurar paquetes NuGet (.NET Framework)
+        run: nuget restore Sistema/SistemaEventos/SistemaEventos.sln -PackagesDirectory Sistema/SistemaEventos/packages
 
-    - name: Restaurar paquetes NuGet
-      run: |
-        nuget restore Sistema/SistemaEventos/SistemaEventos.sln
-        dotnet restore Sistema/SistemaEventos/SistemaEventos.sln
-        nuget install Microsoft.CodeDom.Providers.DotNetCompilerPlatform -Version 2.0.1 -OutputDirectory packages
+      - name: Verificar paquetes restaurados
+        run: Get-ChildItem -Path Sistema/SistemaEventos/packages -Recurse
 
-    - name: Verificar paquetes restaurados
-      run: Get-ChildItem -Path Sistema/SistemaEventos/packages -Recurse
+      - name: Compilar solución
+        run: MSBuild.exe Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=Sistema/SistemaEventos/bin/Release/publish
 
-    - name: Instalar MSBuild
-      uses: microsoft/setup-msbuild@v1.1
+      - name: Publicar artefactos
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: Sistema/SistemaEventos/bin/Release/publish
 
-    - name: Limpiar la solución antes de compilar
-      run: MSBuild.exe Sistema/SistemaEventos/SistemaEventos.sln /t:Clean
+  deploy:
+    runs-on: windows-latest
+    needs: build
 
-    - name: Crear estructura de carpetas de salida
-      run: mkdir -p Sistema/SistemaEventos/bin/Release/publish
+    steps:
+      - name: Descargar artefactos
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: deploy
 
-    - name: Compilar solución
-      run: MSBuild.exe Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=Sistema/SistemaEventos/bin/Release/publish /restore
-
-    - name: Publicar en Azure
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-        package: ./Sistema/SistemaEventos/bin/Release/publish
+      - name: Desplegar en Azure (Ejemplo con FTP)
+        run: |
+          echo "Subiendo archivos a Azure..."
+          # Aquí puedes agregar comandos para desplegar tu aplicación en Azure.
+          # Por ejemplo, usando Azure CLI o FTP.
