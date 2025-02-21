@@ -1,4 +1,4 @@
-name: Deploy EventifyMe
+name: Deploy to Azure
 
 on:
   push:
@@ -10,23 +10,30 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - name: Configurar Git para nombres largos
+      run: git config --system core.longpaths true
 
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1
+    - name: Checkout código
+      uses: actions/checkout@v4
 
-      - name: Restore NuGet Packages
-        run: nuget restore Sistema/SistemaEventos/SistemaEventos.sln
+    - name: Verificar archivos en el workspace
+      run: Get-ChildItem -Path . -Recurse -ErrorAction Continue
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
+    - name: Restaurar paquetes
+      run: nuget restore Sistema/SistemaEventos/SistemaEventos.sln
 
-      - name: Build Solution
-        run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:OutputPath="D:\a\publish"
+    - name: Instalar MSBuild
+      uses: microsoft/setup-msbuild@v1.1
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: eventifyme-build
-          path: D:\a\publish
+    - name: Crear estructura de carpetas de salida
+      run: mkdir -p Sistema/SistemaEventos/bin/Release/publish
+
+    - name: Compilar solución
+      run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=Sistema/SistemaEventos/bin/Release/publish
+
+    - name: Publicar en Azure
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        package: ./Sistema/SistemaEventos/bin/Release/publish
