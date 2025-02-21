@@ -26,18 +26,22 @@ jobs:
       run: |
         nuget restore Sistema/SistemaEventos/SistemaEventos.sln
         dotnet restore Sistema/SistemaEventos/SistemaEventos.sln
+        nuget install Microsoft.CodeDom.Providers.DotNetCompilerPlatform -Version 2.0.1 -OutputDirectory packages
+
+    - name: Verificar paquetes restaurados
+      run: Get-ChildItem -Path Sistema/SistemaEventos/packages -Recurse
 
     - name: Instalar MSBuild
       uses: microsoft/setup-msbuild@v1.1
 
     - name: Limpiar la solución antes de compilar
-      run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /t:Clean
+      run: MSBuild.exe Sistema/SistemaEventos/SistemaEventos.sln /t:Clean
 
     - name: Crear estructura de carpetas de salida
       run: mkdir -p Sistema/SistemaEventos/bin/Release/publish
 
     - name: Compilar solución
-      run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=Sistema/SistemaEventos/bin/Release/publish
+      run: MSBuild.exe Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=Sistema/SistemaEventos/bin/Release/publish /restore
 
     - name: Publicar en Azure
       uses: azure/webapps-deploy@v2
