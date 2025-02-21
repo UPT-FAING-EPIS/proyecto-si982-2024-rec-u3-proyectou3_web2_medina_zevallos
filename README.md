@@ -2,6 +2,29 @@
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=17616412)
 # PROYECTO U3: Sistema Web "EventifyMe" para la gestión y reserva de eventos
 
+## Introducción
+
+El proyecto **EventifyMe** está diseñado para resolver los problemas relacionados con la gestión y reserva de eventos. Muchas empresas y particulares enfrentan limitaciones significativas al depender exclusivamente de redes sociales o métodos no especializados para estas tareas. Este sistema busca ofrecer una solución integral, moderna y eficiente.
+
+### Definición del Problema
+
+Las empresas y usuarios enfrentan desafíos importantes como:
+- Dependencia de redes sociales que limitan el alcance y personalización.
+- Procesos administrativos manuales que reducen la eficiencia.
+- Ausencia de automatización para análisis de datos y recomendaciones personalizadas.
+- Dificultad para expandir el mercado y retener clientes.
+
+### Objetivo General y Objetivos Específicos
+
+#### Objetivo General
+Desarrollar un sistema web que optimice la gestión y reserva de eventos, mejorando la experiencia del usuario y aumentando la eficiencia operativa.
+
+#### Objetivos Específicos
+- Diseñar una plataforma intuitiva y accesible.
+- Incorporar funcionalidades de inteligencia artificial para ofrecer recomendaciones personalizadas.
+- Automatizar procesos administrativos y de gestión de eventos.
+- Garantizar la seguridad de los datos y la privacidad de los usuarios.
+
 ### Diagrama de Casos de Uso
 <img src="https://github.com/user-attachments/assets/bdb8a116-e15b-43f5-a4c1-4f4a70d3414e" alt="Diagrama de Casos de Uso" width="600"/>
 
