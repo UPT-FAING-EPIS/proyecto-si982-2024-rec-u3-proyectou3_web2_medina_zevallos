@@ -10,33 +10,36 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Configurar Git para nombres largos
-      run: git config --system core.longpaths true
+      - name: Configurar Git para nombres largos
+        run: git config --system core.longpaths true
 
-    - name: Checkout código
-      uses: actions/checkout@v4
+      - name: Checkout código
+        uses: actions/checkout@v4
 
-    - name: Verificar archivos en el workspace
-      run: Get-ChildItem -Path . -Recurse -ErrorAction Continue
+      - name: Verificar archivos en el workspace
+        run: Get-ChildItem -Path . -Recurse -ErrorAction Continue
 
-    - name: Restaurar paquetes
-      run: nuget restore Sistema/SistemaEventos/SistemaEventos.sln
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1
 
-    - name: Restaurar paquetes con msbuild
-      run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /t:Restore
+      - name: Restaurar paquetes NuGet
+        run: nuget restore Sistema/SistemaEventos/SistemaEventos.sln
 
-    - name: Instalar MSBuild
-      uses: microsoft/setup-msbuild@v1.1
+      - name: Instalar MSBuild
+        uses: microsoft/setup-msbuild@v1.1
 
-    - name: Crear estructura de carpetas de salida
-      run: mkdir -p Sistema/SistemaEventos/bin/Release/publish
+      - name: Verificar instalación de MSBuild
+        run: where msbuild
 
-    - name: Compilar solución
-      run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=Sistema/SistemaEventos/bin/Release/publish
+      - name: Crear estructura de carpetas de salida
+        run: mkdir -p Sistema/SistemaEventos/bin/Release/publish
 
-    - name: Publicar en Azure
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-        package: ./Sistema/SistemaEventos/bin/Release/publish
+      - name: Compilar solución
+        run: msbuild Sistema/SistemaEventos/SistemaEventos.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=Sistema/SistemaEventos/bin/Release/publish
+
+      - name: Publicar en Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          package: ./Sistema/SistemaEventos/bin/Release/publish
